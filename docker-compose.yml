@@ -1,0 +1,25 @@
+services:
+  frontend:
+    tty: true
+    stdin_open: true
+    image: mahjong_front:latest
+    container_name: mahjong_front
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      target: base
+    command: sh -lc "yarn install && yarn dev"
+    volumes:
+      - .:/home/node/project
+      - node_modules:/home/node/project/node_modules
+    ports:
+      - 3000:3000
+    environment:
+      FRONTEND_URL: http://localhost:3000
+
+# networks:
+#   shared:
+#     external: true
+
+volumes:
+  node_modules:
