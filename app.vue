@@ -31,7 +31,14 @@
         </div>
       </div>
       <!-- 手牌 -->
-      <div class="border w-full h-36 border-gray-400 rounded-md">
+      <div class="border w-full h-36 border-gray-400 rounded-md mb-6">
+      </div>
+      <!-- 鳴き -->
+      <div class="mb-6">
+      </div>
+      <div class="flex gap-4">
+        <div class="border h-36 border-gray-400 w-3/6"></div>
+        <div class="border h-36 border-gray-400 w-3/6"></div>
       </div>
     </div>
   </div>
