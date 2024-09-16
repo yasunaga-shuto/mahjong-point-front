@@ -15,7 +15,7 @@
         </div>
         <!-- 本場 -->
         <div class="flex items-center">
-          <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="w-16 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
+          <input type="number" id="number-input" aria-describedby="helper-text-explanation" class="w-16 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" required />
 
           <label class="w-full ml-2">本場</label>
         </div>
@@ -43,7 +43,7 @@
           <el-radio-button label="ドラ" value="ドラ" />
         </el-radio-group>
       </div>
-      <div class="flex gap-4">
+      <div class="flex">
         <div class="h-36 w-3/6">
           <div class="mb-3">
             <img v-for="i in 9" :key="i" :src="`/pai/p_ms${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
@@ -64,7 +64,56 @@
             <img src="/pai/p_ji_c_1.gif" alt="pai1" class="inline-block cursor-pointer">
           </div>
         </div>
-        <div class="border h-36 border-gray-400 w-3/6"></div>
+        <div class="w-3/6">
+          <div class="mb-3">
+            <el-radio-group v-model="radio2" size="large">
+              <el-radio-button label="ツモ" value="ツモ" />
+              <el-radio-button label="ロン" value="ロン" />
+            </el-radio-group>
+          </div>
+          <div class="mb-3">
+            <el-radio-group v-model="riichi" size="large">
+              <el-radio-button label="なし" value="なし" />
+              <el-radio-button label="リーチ" value="リーチ" />
+              <el-radio-button label="ダブルリーチ" value="ダブルリーチ" />
+            </el-radio-group>
+          </div>
+          <div class="mb-3">
+            <el-switch
+              v-model="ippatsu"
+              size="large"
+              active-text="一発"
+            />
+          </div>
+          <div class="mb-3">
+            <el-switch
+              v-model="chankan"
+              size="large"
+              active-text="チャンカン"
+            />
+          </div>
+          <div class="mb-3">
+            <el-switch
+              v-model="linshan"
+              size="large"
+              active-text="嶺上開花"
+            />
+          </div>
+          <div class="mb-3">
+            <el-switch
+              v-model="haitei"
+              size="large"
+              active-text="ハイテイ"
+            />
+          </div>
+          <div class="mb-3">
+            <el-switch
+              v-model="hora"
+              size="large"
+              active-text="第一ツモで和了"
+            />
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -74,4 +123,11 @@
 import { ref } from 'vue'
 
 const radio1 = ref('')
+const radio2 = ref('')
+const riichi = ref('なし')
+const ippatsu = ref(false)
+const chankan = ref(false)
+const linshan = ref(false)
+const haitei = ref(false)
+const hora = ref(false)
 </script>
