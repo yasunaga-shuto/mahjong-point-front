@@ -177,12 +177,20 @@ const addPai = (pai: Pai) => {
       mode.value = ''
     }
     break
+  case 'pon':
+    hupai.value.push({ type: 'pon', pai: [pai, pai, pai] })
+    mode.value = ''
+    break
   default:
     tehai.value.push(pai)
   }
 }
 const inputMode = (event: { target: HTMLInputElement }) => {
-  hupai.value.push({ type: event.target.value, pai: [] })
+  const mode = event.target.value
+  if (mode !== 'chi') {
+    return
+  }
+  hupai.value.push({ type: mode, pai: [] })
 }
 const sort = () => {
   const order = [...MANZU, ...PINZU, ...SOZU, ...TUPAI]
