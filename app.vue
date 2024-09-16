@@ -120,7 +120,7 @@
     </div>
     <div class="w-full flex items-center fixed bottom-0 h-28" style="background-color: rgba(0, 0, 0, 0.5);">
       <div class="w-3/4 mx-auto flex justify-end">
-        <el-button size="large">リセット</el-button>
+        <el-button size="large" @click="reset">リセット</el-button>
         <el-button type="primary" size="large">計算</el-button>
       </div>
     </div>
@@ -162,5 +162,16 @@ const sort = () => {
   const order = [...MANZU, ...PINZU, ...SOZU, ...TUPAI]
   const t = tehai.value.sort((x: Pai, y: Pai) => order.indexOf(x) - order.indexOf(y))
   tehai.value = t
+}
+const reset = () => {
+  mode.value = ''
+  how.value = ''
+  riichi.value = 'なし'
+  ippatsu.value = false
+  chankan.value = false
+  linshan.value = false
+  haitei.value = false
+  hora.value = false
+  tehai.value = []
 }
 </script>
