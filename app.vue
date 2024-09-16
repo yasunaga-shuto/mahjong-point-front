@@ -31,8 +31,9 @@
         </div>
       </div>
       <!-- 手牌 -->
-      <div class="border w-full h-36 border-gray-400 rounded-md mb-6 flex items-center justify-center">
-        <img v-for="t in tehai" :key="t" :src="`/pai/normal/${t}.gif`" class="w-12 h-14">
+      <div class="border w-full h-36 border-gray-400 rounded-md mb-6 flex items-center justify-center relative">
+        <el-button class="absolute top-4 right-8" @click="sort">並び替え（埋牌）</el-button>
+        <img v-for="(t, index) in tehai" :key="index" :src="`/pai/normal/${t}.gif`" class="w-12 h-14">
       </div>
       <!-- モード -->
       <div class="mb-6">
@@ -129,10 +130,16 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-type Manzu = '1m' | '2m' | '3m' | '4m' | '5m' | '6m' | '7m' | '8m' | '9m'
-type Pinzu = '1p' | '2p' | '3p' | '4p' | '5p' | '6p' | '7p' | '8p' | '9p'
-type Sozu = '1s' | '2s' | '3s' | '4s' | '5s' | '6s' | '7s' | '8s' | '9s'
-type Tupai = 'ton' | 'nan' | 'sha' | 'pei' | 'haku' | 'hatsu' | 'chun'
+const MANZU = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m'] as const
+const PINZU = ['1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p'] as const
+const SOZU = ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s'] as const
+const TUPAI = ['ton', 'nan', 'sha', 'pei', 'haku', 'hatsu', 'chun'] as const
+
+type Manzu = typeof MANZU[number]
+type Pinzu = typeof PINZU[number]
+type Sozu = typeof SOZU[number]
+type Tupai = typeof TUPAI[number]
+type Pai = Manzu | Pinzu | Sozu | Tupai
 
 const mode = ref('')
 const how = ref('')
@@ -143,12 +150,17 @@ const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
 
-const tehai = ref<(Manzu | Pinzu | Sozu | Tupai)[]>([])
+const tehai = ref<Pai[]>([])
 
-const addPai = (pai: Manzu | Pinzu | Sozu | Tupai) => {
+const addPai = (pai: Pai) => {
   if (tehai && tehai.value.length >= 14) {
     return
   }
   tehai.value.push(pai)
+}
+const sort = () => {
+  const order = [...MANZU, ...PINZU, ...SOZU, ...TUPAI]
+  const t = tehai.value.sort((x: Pai, y: Pai) => order.indexOf(x) - order.indexOf(y))
+  tehai.value = t
 }
 </script>
