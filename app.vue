@@ -1,7 +1,7 @@
 <template>
   <div>
     <OrganismsHeader />
-    <div class="container mx-auto w-3/4 my-8">
+    <div class="container mx-auto w-3/4 mt-8 mb-48">
       <div class="flex items-center gap-6 mb-6">
         <!-- 場風 -->
         <div class="flex items-center">
@@ -46,22 +46,22 @@
       <div class="flex">
         <div class="h-36 w-3/6">
           <div class="mb-3">
-            <img v-for="i in 9" :key="i" :src="`/pai/p_ms${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
+            <img v-for="i in 9" :key="i" :src="`/pai/p_ms${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
           </div>
           <div class="mb-3">
-            <img v-for="i in 9" :key="i" :src="`/pai/p_ps${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
+            <img v-for="i in 9" :key="i" :src="`/pai/p_ps${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
           </div>
           <div class="mb-3">
-            <img v-for="i in 9" :key="i" :src="`/pai/p_ss${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
+            <img v-for="i in 9" :key="i" :src="`/pai/p_ss${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
           </div>
           <div class="mb-3">
-            <img src="/pai/p_ji_e_1.gif" alt="pai1" class="inline-block cursor-pointer">
-            <img src="/pai/p_ji_s_1.gif" alt="pai1" class="inline-block cursor-pointer">
-            <img src="/pai/p_ji_w_1.gif" alt="pai1" class="inline-block cursor-pointer">
-            <img src="/pai/p_ji_n_1.gif" alt="pai1" class="inline-block cursor-pointer">
-            <img src="/pai/p_no_1.gif" alt="pai1" class="inline-block cursor-pointer">
-            <img src="/pai/p_ji_h_1.gif" alt="pai1" class="inline-block cursor-pointer">
-            <img src="/pai/p_ji_c_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_ji_e_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
+            <img src="/pai/p_ji_s_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
+            <img src="/pai/p_ji_w_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
+            <img src="/pai/p_ji_n_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
+            <img src="/pai/p_no_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
+            <img src="/pai/p_ji_h_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
+            <img src="/pai/p_ji_c_1.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3">
           </div>
         </div>
         <div class="w-3/6">
