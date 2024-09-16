@@ -44,7 +44,26 @@
         </el-radio-group>
       </div>
       <div class="flex gap-4">
-        <div class="border h-36 border-gray-400 w-3/6"></div>
+        <div class="h-36 w-3/6">
+          <div class="mb-3">
+            <img v-for="i in 9" :key="i" :src="`/pai/p_ms${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
+          </div>
+          <div class="mb-3">
+            <img v-for="i in 9" :key="i" :src="`/pai/p_ps${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
+          </div>
+          <div class="mb-3">
+            <img v-for="i in 9" :key="i" :src="`/pai/p_ss${i}_1.gif`" alt="pai1" class="inline-block cursor-pointer">
+          </div>
+          <div class="mb-3">
+            <img src="/pai/p_ji_e_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_ji_s_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_ji_w_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_ji_n_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_no_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_ji_h_1.gif" alt="pai1" class="inline-block cursor-pointer">
+            <img src="/pai/p_ji_c_1.gif" alt="pai1" class="inline-block cursor-pointer">
+          </div>
+        </div>
         <div class="border h-36 border-gray-400 w-3/6"></div>
       </div>
     </div>
