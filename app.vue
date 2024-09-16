@@ -33,8 +33,15 @@
       <!-- 手牌 -->
       <div class="border w-full h-36 border-gray-400 rounded-md mb-6">
       </div>
-      <!-- 鳴き -->
+      <!-- モード -->
       <div class="mb-6">
+        <el-radio-group v-model="radio1" size="large">
+          <el-radio-button label="チー" value="チー" />
+          <el-radio-button label="ポン" value="ポン" />
+          <el-radio-button label="カン" value="カン" />
+          <el-radio-button label="暗カン" value="暗カン" />
+          <el-radio-button label="ドラ" value="ドラ" />
+        </el-radio-group>
       </div>
       <div class="flex gap-4">
         <div class="border h-36 border-gray-400 w-3/6"></div>
@@ -43,3 +50,9 @@
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { ref } from 'vue'
+
+const radio1 = ref('')
+</script>
