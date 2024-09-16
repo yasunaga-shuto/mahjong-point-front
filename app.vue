@@ -116,6 +116,12 @@
         </div>
       </div>
     </div>
+    <div class="w-full flex items-center fixed bottom-0 h-28" style="background-color: rgba(0, 0, 0, 0.5);">
+      <div class="w-3/4 mx-auto flex justify-end">
+        <el-button size="large">リセット</el-button>
+        <el-button type="primary" size="large">計算</el-button>
+      </div>
+    </div>
   </div>
 </template>
 
