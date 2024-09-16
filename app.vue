@@ -37,7 +37,7 @@
 
         <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4">
           <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-            <img :src="`/pai/${p}.gif`" class="w-12 h-14 inline-block" :class="{ 'rotate-[270deg]': j === 0 }">
+            <img :src="`/pai/${p}.gif`" class="w-12 h-14 inline-block" :class="{ 'rotate-[270deg]': j === 0 && t.type !== 'ankan' }">
           </span>
         </div>
       </div>
@@ -181,6 +181,14 @@ const addPai = (pai: Pai) => {
     hupai.value.push({ type: 'pon', pai: [pai, pai, pai] })
     mode.value = ''
     break
+  case 'kan':
+    hupai.value.push({ type: 'kan', pai: [pai, pai, pai, pai] })
+    mode.value = ''
+    break
+  case 'ankan':
+    hupai.value.push({ type: 'ankan', pai: ['back', pai, pai, 'back'] })
+    mode.value = ''
+    break
   default:
     tehai.value.push(pai)
   }
@@ -207,5 +215,6 @@ const reset = () => {
   haitei.value = false
   hora.value = false
   tehai.value = []
+  hupai.value = []
 }
 </script>
