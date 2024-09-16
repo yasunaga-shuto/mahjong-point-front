@@ -35,7 +35,7 @@
       </div>
       <!-- モード -->
       <div class="mb-6">
-        <el-radio-group v-model="radio1" size="large">
+        <el-radio-group v-model="mode" size="large">
           <el-radio-button label="チー" value="チー" />
           <el-radio-button label="ポン" value="ポン" />
           <el-radio-button label="カン" value="カン" />
@@ -66,7 +66,7 @@
         </div>
         <div class="w-3/6">
           <div class="mb-3">
-            <el-radio-group v-model="radio2" size="large">
+            <el-radio-group v-model="how" size="large">
               <el-radio-button label="ツモ" value="ツモ" />
               <el-radio-button label="ロン" value="ロン" />
             </el-radio-group>
@@ -128,8 +128,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const radio1 = ref('')
-const radio2 = ref('')
+const mode = ref('')
+const how = ref('')
 const riichi = ref('なし')
 const ippatsu = ref(false)
 const chankan = ref(false)
