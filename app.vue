@@ -31,10 +31,10 @@
             <label class="ml-2">家</label>
           </div>
         </div>
-        <!-- ドラ -->
+        <!-- ドラ表示牌 -->
         <div class="border border-gray-400 rounded-md py-3 px-6">
-          ドラ
-          <div>
+          ドラ表示牌
+          <div class="text-center">
             <img v-for="(d, index) in dora" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
           </div>
         </div>
@@ -57,7 +57,7 @@
           <el-radio-button label="ポン" value="pon" />
           <el-radio-button label="カン" value="kan" />
           <el-radio-button label="暗カン" value="ankan" />
-          <el-radio-button label="ドラ" value="dora" />
+          <el-radio-button label="ドラ表示牌" value="dora" />
           <el-radio-button label="和了牌" value="agari" />
         </el-radio-group>
       </div>
@@ -303,8 +303,8 @@ const calculate = async () => {
       sou,
       pin,
       honors,
-      dora: ['1s'],
-      win_tile_str: '1m',
+      dora: dora.value,
+      win_tile_str: tehai.value[0],
     }
   })
   console.log(data)
