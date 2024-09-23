@@ -55,13 +55,13 @@
       <div class="flex">
         <div class="h-36 w-3/6">
           <div class="mb-3">
-            <img v-for="(man, index) in MANZU" :key="index" :src="`/pai/${man}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(man)">
+            <img v-for="(man, index) in MANZU" :key="index" :src="`/pai/${man}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(man)">
           </div>
           <div class="mb-3">
-            <img v-for="(pin, index) in PINZU" :key="index" :src="`/pai/${pin}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(pin)">
+            <img v-for="(pin, index) in PINZU" :key="index" :src="`/pai/${pin}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(pin)">
           </div>
           <div class="mb-3">
-            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(sou)">
+            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(sou)">
           </div>
           <div class="mb-3">
             <img src="/pai/ton.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('ton')">
