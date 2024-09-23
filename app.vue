@@ -61,16 +61,16 @@
             <img v-for="(pin, index) in PINZU" :key="index" :src="`/pai/${pin}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(pin)">
           </div>
           <div class="mb-3">
-            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(sou)">
+            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(sou)">
           </div>
           <div class="mb-3">
-            <img src="/pai/ton.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('ton')">
-            <img src="/pai/nan.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('nan')">
-            <img src="/pai/sha.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('sha')">
-            <img src="/pai/pei.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('pei')">
-            <img src="/pai/haku.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('haku')">
-            <img src="/pai/hatsu.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('hatsu')">
-            <img src="/pai/chun.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('chun')">
+            <img src="/pai/ton.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('ton')">
+            <img src="/pai/nan.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('nan')">
+            <img src="/pai/sha.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('sha')">
+            <img src="/pai/pei.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('pei')">
+            <img src="/pai/haku.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('haku')">
+            <img src="/pai/hatsu.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('hatsu')">
+            <img src="/pai/chun.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('chun')">
           </div>
         </div>
         <div class="w-3/6">
