@@ -2,8 +2,8 @@
   <div>
     <OrganismsHeader />
     <div class="container mx-auto w-3/4 mt-8 mb-48">
-      <div class="flex justify-between items-center mb-4">
-        <div class="flex items-center gap-6 mb-6">
+      <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center gap-6">
           <!-- 場風 -->
           <div class="flex items-center">
             <select v-model="ba" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
@@ -31,8 +31,12 @@
             <label class="ml-2">家</label>
           </div>
         </div>
-        <div class="border border-gray-400 rounded-md h-20 w-36">
+        <!-- ドラ -->
+        <div class="border border-gray-400 rounded-md py-3 px-6">
           ドラ
+          <div>
+            <img v-for="(d, index) in dora" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
+          </div>
         </div>
       </div>
       <!-- 手牌 -->
@@ -167,7 +171,7 @@ const chankan = ref(false)
 const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
-const dra = ref([])
+const dora = ref<Pai[]>([])
 const agariPai = ref('')
 
 const tehai = ref<Pai[]>([])
@@ -202,6 +206,10 @@ const addPai = (pai: Pai) => {
     agariPai.value = pai
     mode.value = ''
     break
+  case 'dora':
+    dora.value.push(pai)
+    mode.value = ''
+    break
   default:
     tehai.value.push(pai)
   }
@@ -227,6 +235,8 @@ const reset = () => {
   linshan.value = false
   haitei.value = false
   hora.value = false
+  agariPai.value = ''
+  dora.value = []
   tehai.value = []
   hupai.value = []
 }
