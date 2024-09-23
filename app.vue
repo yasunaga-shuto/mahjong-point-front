@@ -241,10 +241,70 @@ const reset = () => {
   hupai.value = []
 }
 
+const splitTile = (tileStr: Pai) => {
+  const num = /^([1-9])[mps]/g.exec(tileStr)
+  if (!num) {
+    return [tileStr, tileStr]
+  }
+  const type = /^[1-9]([mps])/g.exec(tileStr)
+  if (!type) {
+    return [tileStr, tileStr]
+  }
+  if (tileStr.includes('Red')) {
+    return ['r', type[1]]
+  }
+  return [num[1], type[1]]
+}
+
 const calculate = async () => {
+  let man = ''
+  let pin = ''
+  let sou = ''
+  let honors = ''
+  for (const t of tehai.value) {
+    const [num, type] = splitTile(t)
+    switch (type) {
+    case 'm':
+      man += num
+      break
+    case 'p':
+      pin += num
+      break
+    case 's':
+      sou += num
+      break
+    case 'ton':
+      honors += '1'
+      break
+    case 'nan':
+      honors += '2'
+      break
+    case 'sha':
+      honors += '3'
+      break
+    case 'pei':
+      honors += '4'
+      break
+    case 'haku':
+      honors += '5'
+      break
+    case 'hatsu':
+      honors += '6'
+      break
+    case 'chun':
+      honors += '7'
+      break
+    }
+  }
   const data = await $fetch('http://localhost:8080/', {
     method: 'GET',
-    query: { man: '123456789', sou: '123', pin: '11', win_tile_str: '5sRed' }
+    query: {
+      man,
+      sou,
+      pin,
+      honors,
+      win_tile_str: '5sRed',
+    }
   });
   console.log(data)
 }
