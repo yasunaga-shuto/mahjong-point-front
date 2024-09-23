@@ -2,32 +2,37 @@
   <div>
     <OrganismsHeader />
     <div class="container mx-auto w-3/4 mt-8 mb-48">
-      <div class="flex items-center gap-6 mb-6">
-        <!-- 場風 -->
-        <div class="flex items-center">
-          <select v-model="ba" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-            <option value="ton" selected>東</option>
-            <option value="nan">南</option>
-            <option value="sha">西</option>
-            <option value="pei">北</option>
-          </select>
-          <label class="ml-2">場</label>
-        </div>
-        <!-- 本場 -->
-        <div class="flex items-center">
-          <input v-model="honba" type="number" id="number-input" aria-describedby="helper-text-explanation" class="w-16 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" required />
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center gap-6 mb-6">
+          <!-- 場風 -->
+          <div class="flex items-center">
+            <select v-model="ba" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              <option value="ton" selected>東</option>
+              <option value="nan">南</option>
+              <option value="sha">西</option>
+              <option value="pei">北</option>
+            </select>
+            <label class="ml-2">場</label>
+          </div>
+          <!-- 本場 -->
+          <div class="flex items-center">
+            <input v-model="honba" type="number" id="number-input" aria-describedby="helper-text-explanation" class="w-16 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5" required />
 
-          <label class="w-full ml-2">本場</label>
+            <label class="w-full ml-2">本場</label>
+          </div>
+          <!-- 自風 -->
+          <div class="flex items-center">
+            <select v-model="jicha" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+              <option value="ton" selected>東</option>
+              <option value="nan">南</option>
+              <option value="sha">西</option>
+              <option value="pei">北</option>
+            </select>
+            <label class="ml-2">家</label>
+          </div>
         </div>
-        <!-- 自風 -->
-        <div class="flex items-center">
-          <select v-model="jicha" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-            <option value="ton" selected>東</option>
-            <option value="nan">南</option>
-            <option value="sha">西</option>
-            <option value="pei">北</option>
-          </select>
-          <label class="ml-2">家</label>
+        <div class="border border-gray-400 rounded-md h-20 w-36">
+          ドラ
         </div>
       </div>
       <!-- 手牌 -->
@@ -49,7 +54,7 @@
           <el-radio-button label="カン" value="kan" />
           <el-radio-button label="暗カン" value="ankan" />
           <el-radio-button label="ドラ" value="dora" />
-          <el-radio-button label="ツモ" value="tsumo" />
+          <el-radio-button label="和了牌" value="agari" />
         </el-radio-group>
       </div>
       <div class="flex">
@@ -162,6 +167,8 @@ const chankan = ref(false)
 const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
+const dra = ref([])
+const agariPai = ref('')
 
 const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
@@ -189,6 +196,10 @@ const addPai = (pai: Pai) => {
     break
   case 'ankan':
     hupai.value.push({ type: 'ankan', pai: ['back', pai, pai, 'back'] })
+    mode.value = ''
+    break
+  case 'agari':
+    agariPai.value = pai
     mode.value = ''
     break
   default:
@@ -223,7 +234,7 @@ const reset = () => {
 const calculate = async () => {
   const data = await $fetch('http://localhost:8080/', {
     method: 'GET',
-    query: { man: '123456789', sou: '123', pin: '11', win_tile_str: '1' }
+    query: { man: '123456789', sou: '123', pin: '11', win_tile_str: '5sRed' }
   });
   console.log(data)
 }
