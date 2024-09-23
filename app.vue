@@ -40,7 +40,7 @@
         </div>
       </div>
       <!-- 手牌 -->
-      <div class="border w-full h-36 border-gray-400 rounded-md mb-6 flex items-center justify-center relative">
+      <div class="border w-full h-52 border-gray-400 rounded-md mb-6 flex items-center justify-center relative">
         <el-button class="absolute top-4 right-8" @click="sort">並び替え（埋牌）</el-button>
         <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" width="47">
 
@@ -296,14 +296,15 @@ const calculate = async () => {
       break
     }
   }
-  const data = await $fetch('http://localhost:8080/', {
+  const data = await $fetch('http://localhost:8080?dora[]=1s', {
     method: 'GET',
     query: {
       man,
       sou,
       pin,
       honors,
-      win_tile_str: '5sRed',
+      dora: '1s,5m',
+      win_tile_str: '5s',
     }
   });
   console.log(data)
