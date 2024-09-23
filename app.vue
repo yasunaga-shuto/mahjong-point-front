@@ -137,6 +137,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
+// https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
 const PINZU = ['1p', '2p', '3p', '4p', '5p', '5pRed', '6p', '7p', '8p', '9p'] as const
 const SOZU = ['1s', '2s', '3s', '4s', '5s', '5sRed', '6s', '7s', '8s', '9s'] as const
