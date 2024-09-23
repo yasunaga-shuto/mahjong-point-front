@@ -49,18 +49,19 @@
           <el-radio-button label="カン" value="kan" />
           <el-radio-button label="暗カン" value="ankan" />
           <el-radio-button label="ドラ" value="dora" />
+          <el-radio-button label="ツモ" value="tsumo" />
         </el-radio-group>
       </div>
       <div class="flex">
         <div class="h-36 w-3/6">
           <div class="mb-3">
-            <img v-for="i in 9" :key="i" :src="`/pai/${i}m.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(`${i}m`)">
+            <img v-for="(man, index) in MANZU" :key="index" :src="`/pai/${man}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(man)">
           </div>
           <div class="mb-3">
-            <img v-for="i in 9" :key="i" :src="`/pai/${i}p.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(`${i}p`)">
+            <img v-for="(pin, index) in PINZU" :key="index" :src="`/pai/${pin}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(pin)">
           </div>
           <div class="mb-3">
-            <img v-for="i in 9" :key="i" :src="`/pai/${i}s.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(`${i}s`)">
+            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.gif`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai(sou)">
           </div>
           <div class="mb-3">
             <img src="/pai/ton.gif" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" @click="addPai('ton')">
@@ -127,7 +128,7 @@
     <div class="w-full flex items-center fixed bottom-0 h-28" style="background-color: rgba(0, 0, 0, 0.5);">
       <div class="w-3/4 mx-auto flex justify-end">
         <el-button size="large" @click="reset">リセット</el-button>
-        <el-button type="primary" size="large">計算</el-button>
+        <el-button type="primary" size="large" @click="calculate">計算</el-button>
       </div>
     </div>
   </div>
@@ -136,9 +137,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 
-const MANZU = ['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m'] as const
-const PINZU = ['1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p'] as const
-const SOZU = ['1s', '2s', '3s', '4s', '5s', '6s', '7s', '8s', '9s'] as const
+const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
+const PINZU = ['1p', '2p', '3p', '4p', '5p', '5pRed', '6p', '7p', '8p', '9p'] as const
+const SOZU = ['1s', '2s', '3s', '4s', '5s', '5sRed', '6s', '7s', '8s', '9s'] as const
 const TUPAI = ['ton', 'nan', 'sha', 'pei', 'haku', 'hatsu', 'chun'] as const
 
 type Manzu = typeof MANZU[number]
@@ -216,5 +217,13 @@ const reset = () => {
   hora.value = false
   tehai.value = []
   hupai.value = []
+}
+
+const calculate = async () => {
+  const data = await $fetch('http://localhost:8080/', {
+    method: 'GET',
+    query: { man: '123456789', sou: '123', pin: '11', win_tile_str: '1' }
+  });
+  console.log(data)
 }
 </script>
