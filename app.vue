@@ -33,11 +33,11 @@
       <!-- 手牌 -->
       <div class="border w-full h-36 border-gray-400 rounded-md mb-6 flex items-center justify-center relative">
         <el-button class="absolute top-4 right-8" @click="sort">並び替え（埋牌）</el-button>
-        <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.gif`" class="w-12 h-14">
+        <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" width="47">
 
         <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4">
           <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-            <img :src="`/pai/${p}.gif`" class="w-12 h-14 inline-block" :class="{ 'rotate-[270deg]': j === 0 && t.type !== 'ankan' }">
+            <img :src="`/pai/${p}.png`" class="w-12 h-14 inline-block" :class="{ 'rotate-[270deg] mr-1': j === 0 && t.type !== 'ankan' }" width="47">
           </span>
         </div>
       </div>
