@@ -296,17 +296,17 @@ const calculate = async () => {
       break
     }
   }
-  const data = await $fetch('http://localhost:8080?dora[]=1s', {
-    method: 'GET',
-    query: {
+  const data = await $fetch('http://localhost:8080', {
+    method: 'POST',
+    body: {
       man,
       sou,
       pin,
       honors,
-      dora: '1s,5m',
-      win_tile_str: '5s',
+      dora: ['1s'],
+      win_tile_str: '1m',
     }
-  });
+  })
   console.log(data)
 }
 </script>
