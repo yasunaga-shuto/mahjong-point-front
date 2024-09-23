@@ -35,7 +35,7 @@
         <div class="border border-gray-400 rounded-md py-3 px-6">
           ドラ表示牌
           <div class="text-center">
-            <img v-for="(d, index) in dora" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
+            <img v-for="(d, index) in dora_indicators" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
           <el-radio-button label="ポン" value="pon" />
           <el-radio-button label="カン" value="kan" />
           <el-radio-button label="暗カン" value="ankan" />
-          <el-radio-button label="ドラ表示牌" value="dora" />
+          <el-radio-button label="ドラ表示牌" value="dora_indicators" />
           <el-radio-button label="和了牌" value="agari" />
         </el-radio-group>
       </div>
@@ -157,7 +157,7 @@ type Pinzu = typeof PINZU[number]
 type Sozu = typeof SOZU[number]
 type Tupai = typeof TUPAI[number]
 type Pai = Manzu | Pinzu | Sozu | Tupai
-type Mode = 'chi' | 'pon' | 'kan' | 'ankan' | 'dora' | ''
+type Mode = 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
 
 const ba = ref('ton')
 const honba = ref(0)
@@ -171,7 +171,7 @@ const chankan = ref(false)
 const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
-const dora = ref<Pai[]>([])
+const dora_indicators = ref<Pai[]>([])
 const agariPai = ref('')
 
 const tehai = ref<Pai[]>([])
@@ -206,8 +206,8 @@ const addPai = (pai: Pai) => {
     agariPai.value = pai
     mode.value = ''
     break
-  case 'dora':
-    dora.value.push(pai)
+  case 'dora_indicators':
+    dora_indicators.value.push(pai)
     mode.value = ''
     break
   default:
@@ -236,7 +236,7 @@ const reset = () => {
   haitei.value = false
   hora.value = false
   agariPai.value = ''
-  dora.value = []
+  dora_indicators.value = []
   tehai.value = []
   hupai.value = []
 }
@@ -303,8 +303,8 @@ const calculate = async () => {
       sou,
       pin,
       honors,
-      dora: dora.value,
-      win_tile_str: tehai.value[0],
+      dora_indicators: dora_indicators.value,
+      win_tile: tehai.value[0],
     }
   })
   console.log(data)
