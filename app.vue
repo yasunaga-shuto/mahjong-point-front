@@ -45,9 +45,18 @@
         <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" width="47">
 
         <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4">
-          <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-            <img :src="`/pai/${p}.png`" class="inline-block" :class="{ 'rotate-[270deg] mr-2': j === 0 && t.type !== 'ankan' }" width="47">
-          </span>
+          <!-- カン -->
+          <template v-if="t.type === 'ankan'">
+            <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
+              <img v-if="j === 0 || j === t.pai.length - 1" src="/pai/back.png" class="inline-block h-16" width="47">
+              <img v-else :src="`/pai/${p}.png`" class="inline-block h-16" width="47">
+            </span>
+          </template>
+          <template v-else>
+            <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
+              <img :src="`/pai/${p}.png`" class="inline-block h-16" :class="{ 'rotate-[270deg] mr-2': j === 0 }" width="47">
+            </span>
+          </template>
         </div>
       </div>
       <!-- モード -->
@@ -95,6 +104,13 @@
               <el-radio-button label="リーチ" value="リーチ" />
               <el-radio-button label="ダブルリーチ" value="ダブルリーチ" />
             </el-radio-group>
+          </div>
+          <div class="mb-3">
+            <el-switch
+              v-model="hasAkaDora"
+              size="large"
+              active-text="赤あり"
+            />
           </div>
           <div class="mb-3">
             <el-switch
@@ -167,6 +183,7 @@ const mode = ref<Mode>('')
 const how = ref('')
 const riichi = ref('なし')
 const ippatsu = ref(false)
+const hasAkaDora = ref(true)
 const chankan = ref(false)
 const linshan = ref(false)
 const haitei = ref(false)
@@ -199,8 +216,25 @@ const addPai = (pai: Pai) => {
     mode.value = ''
     break
   case 'ankan':
-    hupai.value.push({ type: 'ankan', pai: ['back', pai, pai, 'back'] })
     mode.value = ''
+    if (!hasAkaDora.value) {
+      hupai.value.push({ type: 'ankan', pai: [pai, pai, pai, pai] })
+      break
+    }
+    switch (pai) {
+    case '5m':
+      hupai.value.push({ type: 'ankan', pai: [pai, pai, '5mRed', pai] })
+      break
+    case '5p':
+      hupai.value.push({ type: 'ankan', pai: [pai, pai, '5pRed', pai] })
+      break
+    case '5s':
+      hupai.value.push({ type: 'ankan', pai: [pai, pai, '5sRed', pai] })
+      break
+    default:
+      hupai.value.push({ type: 'ankan', pai: [pai, pai, pai, pai] })
+      break
+    }
     break
   case 'agari':
     agariPai.value = pai
@@ -334,72 +368,85 @@ const calculate = async () => {
         }
       }
     } else {
-      const pai = t.pai[1]
-      const [num, type] = splitTile(pai)
-      switch (type) {
-      case 'm':
-        man += (num + num + num + num)
-        break
-      case 'p':
-        pin += (num + num + num + num)
-        break
-      case 's':
-        sou += (num + num + num + num)
-        break
-      case 'ton':
-        honors += '1111'
-        break
-      case 'nan':
-        honors += '2222'
-        break
-      case 'sha':
-        honors += '3333'
-        break
-      case 'pei':
-        honors += '4444'
-        break
-      case 'haku':
-        honors += '5555'
-        break
-      case 'hatsu':
-        honors += '6666'
-        break
-      case 'chun':
-        honors += '7777'
-        break
+      // カン
+      let kanTilesMan = ''
+      let kanTilesPin = ''
+      let kanTilesSou = ''
+      let kanTilesHonors = ''
+      for (const p of t.pai) {
+        const [num, type] = splitTile(p)
+        switch (type) {
+        case 'm':
+          kanTilesMan += num
+          break
+        case 'p':
+          kanTilesPin += num
+          break
+        case 's':
+          kanTilesSou += num
+          break
+        case 'ton':
+          kanTilesHonors += '1'
+          break
+        case 'nan':
+          kanTilesHonors += '2'
+          break
+        case 'sha':
+          kanTilesHonors += '3'
+          break
+        case 'pei':
+          kanTilesHonors += '4'
+          break
+        case 'haku':
+          kanTilesHonors += '5'
+          break
+        case 'hatsu':
+          kanTilesHonors += '6'
+          break
+        case 'chun':
+          kanTilesHonors += '7'
+          break
+        }
       }
+      man += kanTilesMan
+      pin += kanTilesPin
+      sou += kanTilesSou
+      honors += kanTilesHonors
     }
   }
+  console.log(man, pin, sou)
   man = man.split('').sort().join('')
   pin = pin.split('').sort().join('')
   sou = sou.split('').sort().join('')
   honors = honors.split('').sort().join('')
-  const data = await $fetch('http://localhost:8080', {
-    method: 'POST',
-    body: {
-      man: '234678',
-      pin: '5555',
-      sou: '23455',
-      honors: '',
-      dora_indicators: ['1m', '1p'],
-      win_tile: '2s',
-      melds: [
-        { type: 'ankan', pai: ['back', '5p', '5p', 'back'] },
-      ]
-    }
-  })
   // const data = await $fetch('http://localhost:8080', {
   //   method: 'POST',
   //   body: {
-  //     man,
-  //     sou,
-  //     pin,
-  //     honors,
-  //     dora_indicators: dora_indicators.value,
-  //     win_tile: tehai.value[0],
-  //     melds: hupai.value,
+  //     man: '234678',
+  //     pin: '5r55',
+  //     sou: '23455',
+  //     honors: '',
+  //     dora_indicators: ['1m', '1p'],
+  //     win_tile: '2s',
+  //     melds: [
+  //       { type: 'ankan', pai: ['back', '5p', '5p', 'back'] },
+  //     ],
+  //     has_aka_dora: true,
   //   }
   // })
+  const data = await $fetch('http://localhost:8080', {
+    method: 'POST',
+    body: {
+      man,
+      sou,
+      pin,
+      honors,
+      dora_indicators: dora_indicators.value,
+      win_tile: tehai.value[0],
+      melds: hupai.value,
+      has_aka_dora: hasAkaDora.value,
+    }
+  })
   console.log(data)
 }
 </script>
