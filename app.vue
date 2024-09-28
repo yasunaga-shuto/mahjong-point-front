@@ -6,7 +6,7 @@
         <div class="flex items-center gap-6">
           <!-- 場風 -->
           <div class="flex items-center">
-            <select v-model="ba" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <select v-model="roundWind" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
               <option value="ton" selected>東</option>
               <option value="nan">南</option>
               <option value="sha">西</option>
@@ -22,7 +22,7 @@
           </div>
           <!-- 自風 -->
           <div class="flex items-center">
-            <select v-model="jicha" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <select v-model="playerWind" id="countries" class="w-16 border text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
               <option value="ton" selected>東</option>
               <option value="nan">南</option>
               <option value="sha">西</option>
@@ -175,9 +175,9 @@ type Tupai = typeof TUPAI[number]
 type Pai = Manzu | Pinzu | Sozu | Tupai
 type Mode = 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
 
-const ba = ref('ton')
+const roundWind = ref('ton')
+const playerWind = ref('ton')
 const honba = ref(0)
-const jicha = ref('ton')
 
 const mode = ref<Mode>('')
 const how = ref('')
@@ -407,6 +407,7 @@ const calculate = async () => {
       melds: hupai.value,
       has_aka_dora: hasAkaDora.value,
       is_riichi: riichi.value === 'リーチ',
+      player_wind: playerWind.value,
     }
   })
   console.log(data)
