@@ -211,34 +211,32 @@ const addPai = (pai: Pai) => {
     hupai.value.push({ type: 'pon', pai: [pai, pai, pai] })
     mode.value = ''
     break
-  case 'kan':
-    hupai.value.push({ type: 'kan', pai: [pai, pai, pai, pai] })
-    mode.value = ''
-    break
   case 'ankan':
-    mode.value = ''
+  case 'kan':
     if (!hasAkaDora.value) {
-      hupai.value.push({ type: 'ankan', pai: [pai, pai, pai, pai] })
+      hupai.value.push({ type: mode.value, pai: [pai, pai, pai, pai] })
+      mode.value = ''
       break
     }
     console.log(pai)
     switch (pai) {
     case '5m':
     case '5mRed':
-      hupai.value.push({ type: 'ankan', pai: ['5m', '5m', '5mRed', '5m'] })
+      hupai.value.push({ type: mode.value, pai: ['5m', '5m', '5mRed', '5m'] })
       break
     case '5p':
     case '5pRed':
-      hupai.value.push({ type: 'ankan', pai: ['5p', '5p', '5pRed', '5p'] })
+      hupai.value.push({ type: mode.value, pai: ['5p', '5p', '5pRed', '5p'] })
       break
     case '5s':
     case '5sRed':
-      hupai.value.push({ type: 'ankan', pai: ['5s', '5s', '5sRed', '5s'] })
+      hupai.value.push({ type: mode.value, pai: ['5s', '5s', '5sRed', '5s'] })
       break
     default:
-      hupai.value.push({ type: 'ankan', pai: [pai, pai, pai, pai] })
+      hupai.value.push({ type: mode.value, pai: [pai, pai, pai, pai] })
       break
     }
+    mode.value = ''
     break
   case 'agari':
     agariPai.value = pai
