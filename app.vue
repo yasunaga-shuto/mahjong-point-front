@@ -35,7 +35,7 @@
         <div class="border border-gray-400 rounded-md py-3 px-6">
           ドラ表示牌
           <div class="text-center">
-            <img v-for="(d, index) in dora_indicators" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
+            <img v-for="(d, index) in doraIndicators" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
           </div>
         </div>
       </div>
@@ -189,17 +189,22 @@ const chankan = ref(false)
 const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
-const dora_indicators = ref<Pai[]>([])
+const doraIndicators = ref<Pai[]>([])
 const agariPai = ref('')
 
 const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
 
 const addPai = (pai: Pai) => {
-  if (mode.value === 'agari') {
+  switch (mode.value) {
+  case 'agari':
     agariPai.value = pai
     mode.value = ''
-    return
+    break
+  case 'dora_indicators':
+    doraIndicators.value.push(pai)
+    mode.value = ''
+    break
   }
   if (tehai.value.length + hupai.value.length * 3 >= 13) {
     return
@@ -224,7 +229,6 @@ const addPai = (pai: Pai) => {
       mode.value = ''
       break
     }
-    console.log(pai)
     switch (pai) {
     case '5m':
     case '5mRed':
@@ -242,10 +246,6 @@ const addPai = (pai: Pai) => {
       hupai.value.push({ type: mode.value, pai: [pai, pai, pai, pai] })
       break
     }
-    mode.value = ''
-    break
-  case 'dora_indicators':
-    dora_indicators.value.push(pai)
     mode.value = ''
     break
   default:
@@ -274,7 +274,7 @@ const reset = () => {
   haitei.value = false
   hora.value = false
   agariPai.value = ''
-  dora_indicators.value = []
+  doraIndicators.value = []
   tehai.value = []
   hupai.value = []
 }
@@ -410,7 +410,7 @@ const calculate = async () => {
       sou,
       pin,
       honors,
-      dora_indicators: dora_indicators.value,
+      dora_indicators: doraIndicators.value,
       win_tile: agariPai.value,
       melds: hupai.value,
       has_aka_dora: hasAkaDora.value,
