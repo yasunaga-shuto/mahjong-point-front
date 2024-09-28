@@ -407,6 +407,7 @@ const calculate = async () => {
       melds: hupai.value,
       has_aka_dora: hasAkaDora.value,
       is_riichi: riichi.value === 'リーチ',
+      round_wind: roundWind.value,
       player_wind: playerWind.value,
     }
   })
