@@ -420,6 +420,7 @@ const calculate = async () => {
       is_ippatsu: ippatsu.value,
       is_chankan: chankan.value,
       is_rinshan: linshan.value,
+      is_haitei: haitei.value,
       round_wind: roundWind.value,
       player_wind: playerWind.value,
     }
