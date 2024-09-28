@@ -406,6 +406,7 @@ const calculate = async () => {
       win_tile: tehai.value[0],
       melds: hupai.value,
       has_aka_dora: hasAkaDora.value,
+      is_riichi: riichi.value === 'リーチ',
     }
   })
   console.log(data)
