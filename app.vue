@@ -416,6 +416,7 @@ const calculate = async () => {
       has_aka_dora: hasAkaDora.value,
       is_riichi: riichi.value === 'リーチ',
       is_tsumo: how.value === 'ツモ',
+      is_daburu_riichi: riichi.value === 'ダブルリーチ',
       round_wind: roundWind.value,
       player_wind: playerWind.value,
     }
