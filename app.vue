@@ -221,15 +221,19 @@ const addPai = (pai: Pai) => {
       hupai.value.push({ type: 'ankan', pai: [pai, pai, pai, pai] })
       break
     }
+    console.log(pai)
     switch (pai) {
     case '5m':
-      hupai.value.push({ type: 'ankan', pai: [pai, pai, '5mRed', pai] })
+    case '5mRed':
+      hupai.value.push({ type: 'ankan', pai: ['5m', '5m', '5mRed', '5m'] })
       break
     case '5p':
-      hupai.value.push({ type: 'ankan', pai: [pai, pai, '5pRed', pai] })
+    case '5pRed':
+      hupai.value.push({ type: 'ankan', pai: ['5p', '5p', '5pRed', '5p'] })
       break
     case '5s':
-      hupai.value.push({ type: 'ankan', pai: [pai, pai, '5sRed', pai] })
+    case '5sRed':
+      hupai.value.push({ type: 'ankan', pai: ['5s', '5s', '5sRed', '5s'] })
       break
     default:
       hupai.value.push({ type: 'ankan', pai: [pai, pai, pai, pai] })
