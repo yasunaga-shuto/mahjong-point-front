@@ -2,7 +2,7 @@
   <div>
     <OrganismsHeader />
     <div class="container mx-auto w-3/4 mt-8 mb-48">
-      <div class="flex justify-between items-center mb-6">
+      <div class="flex justify-between items-center my-6">
         <div class="flex items-center gap-6">
           <!-- 場風 -->
           <div class="flex items-center">
@@ -46,7 +46,7 @@
 
         <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4">
           <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-            <img :src="`/pai/${p}.png`" class="w-12 h-14 inline-block" :class="{ 'rotate-[270deg] mr-1': j === 0 && t.type !== 'ankan' }" width="47">
+            <img :src="`/pai/${p}.png`" class="inline-block" :class="{ 'rotate-[270deg] mr-2': j === 0 && t.type !== 'ankan' }" width="47">
           </span>
         </div>
       </div>
@@ -296,17 +296,110 @@ const calculate = async () => {
       break
     }
   }
+  for (const t of hupai.value) {
+    if (t.type === 'chi' || t.type === 'pon') {
+      for (const p of t.pai) {
+        const [num, type] = splitTile(p)
+        switch (type) {
+        case 'm':
+          man += num
+          break
+        case 'p':
+          pin += num
+          break
+        case 's':
+          sou += num
+          break
+        case 'ton':
+          honors += '1'
+          break
+        case 'nan':
+          honors += '2'
+          break
+        case 'sha':
+          honors += '3'
+          break
+        case 'pei':
+          honors += '4'
+          break
+        case 'haku':
+          honors += '5'
+          break
+        case 'hatsu':
+          honors += '6'
+          break
+        case 'chun':
+          honors += '7'
+          break
+        }
+      }
+    } else {
+      const pai = t.pai[1]
+      const [num, type] = splitTile(pai)
+      switch (type) {
+      case 'm':
+        man += (num + num + num + num)
+        break
+      case 'p':
+        pin += (num + num + num + num)
+        break
+      case 's':
+        sou += (num + num + num + num)
+        break
+      case 'ton':
+        honors += '1111'
+        break
+      case 'nan':
+        honors += '2222'
+        break
+      case 'sha':
+        honors += '3333'
+        break
+      case 'pei':
+        honors += '4444'
+        break
+      case 'haku':
+        honors += '5555'
+        break
+      case 'hatsu':
+        honors += '6666'
+        break
+      case 'chun':
+        honors += '7777'
+        break
+      }
+    }
+  }
+  man = man.split('').sort().join('')
+  pin = pin.split('').sort().join('')
+  sou = sou.split('').sort().join('')
+  honors = honors.split('').sort().join('')
   const data = await $fetch('http://localhost:8080', {
     method: 'POST',
     body: {
-      man,
-      sou,
-      pin,
-      honors,
-      dora_indicators: dora_indicators.value,
-      win_tile: tehai.value[0],
+      man: '234678',
+      pin: '5555',
+      sou: '23455',
+      honors: '',
+      dora_indicators: ['1m', '1p'],
+      win_tile: '2s',
+      melds: [
+        { type: 'ankan', pai: ['back', '5p', '5p', 'back'] },
+      ]
     }
   })
+  // const data = await $fetch('http://localhost:8080', {
+  //   method: 'POST',
+  //   body: {
+  //     man,
+  //     sou,
+  //     pin,
+  //     honors,
+  //     dora_indicators: dora_indicators.value,
+  //     win_tile: tehai.value[0],
+  //     melds: hupai.value,
+  //   }
+  // })
   console.log(data)
 }
 </script>
