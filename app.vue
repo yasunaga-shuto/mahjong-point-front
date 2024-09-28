@@ -181,7 +181,7 @@ const playerWind = ref('ton')
 const honba = ref(0)
 
 const mode = ref<Mode>('')
-const how = ref('')
+const how = ref('ロン')
 const riichi = ref('なし')
 const ippatsu = ref(false)
 const hasAkaDora = ref(true)
