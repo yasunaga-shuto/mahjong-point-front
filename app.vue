@@ -290,82 +290,68 @@ const splitTile = (tileStr: Pai) => {
   return [num[1], type[1]]
 }
 
+const getTileNum = (t: Pai) => {
+  const [num, type] = splitTile(t)
+  let man = ''
+  let pin = ''
+  let sou = ''
+  let honor = ''
+  switch (type) {
+  case 'm':
+    man = num
+    break
+  case 'p':
+    pin = num
+    break
+  case 's':
+    sou = num
+    break
+  case 'ton':
+    honor = '1'
+    break
+  case 'nan':
+    honor = '2'
+    break
+  case 'sha':
+    honor = '3'
+    break
+  case 'pei':
+    honor = '4'
+    break
+  case 'haku':
+    honor = '5'
+    break
+  case 'hatsu':
+    honor = '6'
+    break
+  case 'chun':
+    honor = '7'
+    break
+  }
+  return [man, pin, sou, honor]
+}
+
 const calculate = async () => {
   let man = ''
   let pin = ''
   let sou = ''
   let honors = ''
   for (const t of tehai.value) {
-    const [num, type] = splitTile(t)
-    switch (type) {
-    case 'm':
-      man += num
-      break
-    case 'p':
-      pin += num
-      break
-    case 's':
-      sou += num
-      break
-    case 'ton':
-      honors += '1'
-      break
-    case 'nan':
-      honors += '2'
-      break
-    case 'sha':
-      honors += '3'
-      break
-    case 'pei':
-      honors += '4'
-      break
-    case 'haku':
-      honors += '5'
-      break
-    case 'hatsu':
-      honors += '6'
-      break
-    case 'chun':
-      honors += '7'
-      break
-    }
+    const [m, p, s, h] = getTileNum(t)
+    man += m
+    pin += p
+    sou += s
+    honors += h
   }
   for (const t of hupai.value) {
     if (t.type === 'chi' || t.type === 'pon') {
-      for (const p of t.pai) {
-        const [num, type] = splitTile(p)
-        switch (type) {
-        case 'm':
-          man += num
-          break
-        case 'p':
-          pin += num
-          break
-        case 's':
-          sou += num
-          break
-        case 'ton':
-          honors += '1'
-          break
-        case 'nan':
-          honors += '2'
-          break
-        case 'sha':
-          honors += '3'
-          break
-        case 'pei':
-          honors += '4'
-          break
-        case 'haku':
-          honors += '5'
-          break
-        case 'hatsu':
-          honors += '6'
-          break
-        case 'chun':
-          honors += '7'
-          break
-        }
+      let pai: Pai
+      for (pai of t.pai) {
+        const [m, p, s, h] = getTileNum(pai)
+        man += m
+        pin += p
+        sou += s
+        honors += h
       }
     } else {
       // カン
@@ -373,40 +359,13 @@ const calculate = async () => {
       let kanTilesPin = ''
       let kanTilesSou = ''
       let kanTilesHonors = ''
-      for (const p of t.pai) {
-        const [num, type] = splitTile(p)
-        switch (type) {
-        case 'm':
-          kanTilesMan += num
-          break
-        case 'p':
-          kanTilesPin += num
-          break
-        case 's':
-          kanTilesSou += num
-          break
-        case 'ton':
-          kanTilesHonors += '1'
-          break
-        case 'nan':
-          kanTilesHonors += '2'
-          break
-        case 'sha':
-          kanTilesHonors += '3'
-          break
-        case 'pei':
-          kanTilesHonors += '4'
-          break
-        case 'haku':
-          kanTilesHonors += '5'
-          break
-        case 'hatsu':
-          kanTilesHonors += '6'
-          break
-        case 'chun':
-          kanTilesHonors += '7'
-          break
-        }
+      let pai: Pai
+      for (pai of t.pai) {
+        const [m, p, s, h] = getTileNum(pai)
+        kanTilesMan += m
+        kanTilesPin += p
+        kanTilesSou += s
+        kanTilesHonors += h
       }
       man += kanTilesMan
       pin += kanTilesPin
