@@ -43,6 +43,7 @@
       <div class="border w-full h-52 border-gray-400 rounded-md mb-6 flex items-center justify-center relative">
         <el-button class="absolute top-4 right-8" @click="sort">並び替え（埋牌）</el-button>
         <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" width="47">
+        <img v-if="agariPai" class="ml-3" :src="`/pai/${agariPai}.png`" width="47">
 
         <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4">
           <!-- カン -->
@@ -195,7 +196,12 @@ const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
 
 const addPai = (pai: Pai) => {
-  if (tehai.value.length + hupai.value.length * 3 >= 14) {
+  if (mode.value === 'agari') {
+    agariPai.value = pai
+    mode.value = ''
+    return
+  }
+  if (tehai.value.length + hupai.value.length * 3 >= 13) {
     return
   }
   switch (mode.value) {
@@ -236,10 +242,6 @@ const addPai = (pai: Pai) => {
       hupai.value.push({ type: mode.value, pai: [pai, pai, pai, pai] })
       break
     }
-    mode.value = ''
-    break
-  case 'agari':
-    agariPai.value = pai
     mode.value = ''
     break
   case 'dora_indicators':
@@ -375,6 +377,12 @@ const calculate = async () => {
       honors += kanTilesHonors
     }
   }
+  // 和了牌
+  const [m, p, s, h] = getTileNum(agariPai.value)
+  man += m
+  pin += p
+  sou += s
+  honors += h
   console.log(man, pin, sou)
   man = man.split('').sort().join('')
   pin = pin.split('').sort().join('')
@@ -403,7 +411,7 @@ const calculate = async () => {
       pin,
       honors,
       dora_indicators: dora_indicators.value,
-      win_tile: tehai.value[0],
+      win_tile: agariPai.value,
       melds: hupai.value,
       has_aka_dora: hasAkaDora.value,
       is_riichi: riichi.value === 'リーチ',
