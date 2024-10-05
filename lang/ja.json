@@ -48,5 +48,12 @@
     "Kokushi Musou Juusanmen Matchi": "国士無双十三面待ち",
     "Dora": "ドラ",
     "Aka Dora": "赤ドラ"
+  },
+  "yaku_level": {
+    "mangan": "満貫",
+    "haneman": "跳満",
+    "baiman": "倍満",
+    "sanbaiman": "三倍満",
+    "yakuman": "役満"
   }
 }

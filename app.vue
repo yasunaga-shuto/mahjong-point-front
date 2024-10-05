@@ -166,10 +166,13 @@
     </div>
     <el-dialog v-model="isResultVisible" title="点数計算結果" width="500" show-summary>
       <el-table :data="result">
-        <el-table-column property="yaku" label="役" width="200" />
+        <el-table-column property="name" label="役" width="200" />
         <el-table-column property="han" label="翻数" width="200" />
       </el-table>
-      <div class="text-lg ml-3 pt-3">4翻 2600点オール</div>
+      <div class="flex">
+        <div class="text-lg ml-3 pt-3">{{ resultSummary.totalHan }}翻</div>
+        <div class="text-lg ml-3 pt-3">{{ resultSummaryText }}</div>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -177,7 +180,6 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import ja from "@/lang/ja.json"
-console.log(ja.yaku)
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -207,10 +209,11 @@ const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
 const doraIndicators = ref<Pai[]>([])
-const agariPai = ref('pei')
+const agariPai = ref('')
 
+// const tehai = ref<Pai[]>([])
 // TODO: デバッグ用後で消す
-// const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
 // 一盃口
 // const tehai = ref<Pai[]>(['2m', '2m', '3m', '3m', '4m', '4m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
 // 役牌
@@ -256,22 +259,25 @@ const agariPai = ref('pei')
 // ダイスーシー
 // const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', '2s', '2s'])
 // 国士十三面
-const tehai = ref<Pai[]>(['1m', '9m', '1s', '9s', '1p', '9p', 'ton', 'nan', 'sha', 'pei', 'haku', 'hatsu', 'chun'])
+// const tehai = ref<Pai[]>(['1m', '9m', '1s', '9s', '1p', '9p', 'ton', 'nan', 'sha', 'pei', 'haku', 'hatsu', 'chun'])
 
 // const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
 
 const isResultVisible = ref(false)
-const result = [
-  {
-    yaku: '立直',
-    han: 1,
-  },
-  {
-    yaku: '三色同順',
-    han: 2,
-  },
-]
+const result = ref([])
+const resultSummary = ref({})
+
+const resultSummaryText = computed(() => {
+  if (how.value === 'ロン') {
+    return `${resultSummary.value.main}点`
+  }
+  if (playerWind.value === 'ton') {
+    return `${resultSummary.value.main}点オール`
+  } else {
+    return `${resultSummary.value.main}点（親） ${resultSummary.value.additional}点（子）`
+  }
+})
 
 const addPai = (pai: Pai) => {
   switch (mode.value) {
@@ -413,6 +419,32 @@ const getTileNum = (t: Pai) => {
   return [man, pin, sou, honor]
 }
 
+type ResultYaku = {
+  han_closed: number
+  han_open: Object
+  is_yakuman: boolean
+  name: string
+  tenhou_id: number
+  yaku_id: number
+}
+type ResultType = {
+  cost: {
+    additional: number
+    additional_bonus: number
+    kyoutaku_bonus: number
+    main: number
+    main_bonus: number
+    total: number
+    yaku_level: string
+  }
+  error: Object
+  fu: number
+  fu_details: { fu: number, reason: string }[]
+  han: number
+  is_open_hand: boolean
+  yaku: ResultYaku[]
+}
+
 const calculate = async () => {
   let man = ''
   let pin = ''
@@ -513,7 +545,7 @@ const calculate = async () => {
     }
   }
 
-  const data = await $fetch('http://localhost:8080', {
+  const data: ResultType = await $fetch('http://localhost:8080', {
     method: 'POST',
     body: {
       man,
@@ -540,7 +572,24 @@ const calculate = async () => {
       player_wind: playerWind.value,
     }
   })
-  isResultVisible.value = true
   console.log(data)
+  result.value = []
+  resultSummary.value = {
+    main: 0,
+    additional: 0,
+    totalHan: 0,
+    yakuLevel: ''
+  }
+  for (const yaku of data.yaku) {
+    result.value.push({
+      name: ja.yaku[yaku.name as keyof typeof ja.yaku],
+      han: yaku.han_closed,
+    })
+    resultSummary.value.totalHan += yaku.han_closed
+  }
+  resultSummary.value.main = data.cost.main
+  resultSummary.value.additional = data.cost.additional
+  resultSummary.value.yakuLevel = data.cost.yaku_level
+  isResultVisible.value = true
 }
 </script>
