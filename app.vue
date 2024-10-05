@@ -152,7 +152,7 @@
             <el-switch
               v-model="hora"
               size="large"
-              active-text="第一ツモで和了"
+              active-text="第一順目で和了"
             />
           </div>
         </div>
@@ -207,7 +207,7 @@ const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
 const doraIndicators = ref<Pai[]>([])
-const agariPai = ref('8m')
+const agariPai = ref('pei')
 
 // TODO: デバッグ用後で消す
 // const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
@@ -238,7 +238,25 @@ const agariPai = ref('8m')
 // 二盃口
 // const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '1s', '1s', '2s', '2s', '3s', '3s', '9s'])
 // 清一色
-const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '4m', '4m', '4m', '5m', '6m', '7m', '8m'])
+// const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '4m', '4m', '4m', '5m', '6m', '7m', '8m'])
+// 緑一色
+// const tehai = ref<Pai[]>(['2s', '2s', '2s', '3s', '3s', '3s', '4s', '4s', '4s', '8s', '8s', 'hatsu', 'hatsu'])
+// 大三元
+// const tehai = ref<Pai[]>(['1m', '2m', '3m', 'haku', 'haku', 'haku', 'hatsu', 'hatsu', 'hatsu', 'chun', 'chun', 'sha', 'sha'])
+// ショウスーシー
+// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', '2s', '2s'])
+// 字一色
+// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', 'chun', 'chun'])
+// 国士
+// const tehai = ref<Pai[]>(['1m', '9m', '1s', '9s', '1p', '9p', 'ton', 'nan', 'nan', 'sha', 'pei', 'haku', 'hatsu'])
+// チューレン
+// const tehai = ref<Pai[]>(['1m', '1m', '1m', '2m', '4m', '4m', '5m', '6m', '7m', '8m', '9m', '9m', '9m'])
+// チンロウ
+// const tehai = ref<Pai[]>(['1m', '1m', '1m', '1p', '1p', '1p', '1s', '1s', '1s', '9p', '9p', '9p', '9s'])
+// ダイスーシー
+// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', '2s', '2s'])
+// 国士十三面
+const tehai = ref<Pai[]>(['1m', '9m', '1s', '9s', '1p', '9p', 'ton', 'nan', 'sha', 'pei', 'haku', 'hatsu', 'chun'])
 
 // const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
@@ -477,6 +495,23 @@ const calculate = async () => {
       break
     }
   }
+  let isTenhou: boolean = false
+  let isChiihou: boolean = false
+  let isRenhou: boolean = false
+  if (hora.value) {
+    switch (how.value) {
+    case 'ツモ':
+      if (playerWind === 'ton') {
+        isTenhou = true
+      } else {
+        isChiihou = true
+      }
+      break
+    case 'ロン':
+      isRenhou = true
+      break
+    }
+  }
 
   const data = await $fetch('http://localhost:8080', {
     method: 'POST',
@@ -498,7 +533,9 @@ const calculate = async () => {
       is_rinshan: linshan.value,
       is_haitei: isHaitei,
       is_houtei: isHoutei,
-      is_tenhou: hora.value,
+      is_tenhou: isTenhou,
+      is_chiihou: isChiihou,
+      is_renhou: isRenhou,
       round_wind: roundWind.value,
       player_wind: playerWind.value,
     }
