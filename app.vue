@@ -157,6 +157,13 @@
         <el-button type="primary" size="large" @click="calculate">計算</el-button>
       </div>
     </div>
+    <el-dialog v-model="isResultVisible" title="点数計算結果" width="500" show-summary>
+      <el-table :data="result">
+        <el-table-column property="yaku" label="役" width="200" />
+        <el-table-column property="han" label="翻数" width="200" />
+      </el-table>
+      <div class="text-lg ml-3 pt-3">4翻 2600点オール</div>
+    </el-dialog>
   </div>
 </template>
 
@@ -190,10 +197,24 @@ const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
 const doraIndicators = ref<Pai[]>([])
-const agariPai = ref('')
+const agariPai = ref('4p')
 
-const tehai = ref<Pai[]>([])
+// TODO: デバッグ用後で消す
+const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', 'sha', 'sha'])
+// const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
+
+const isResultVisible = ref(false)
+const result = [
+  {
+    yaku: '立直',
+    han: 1,
+  },
+  {
+    yaku: '三色同順',
+    han: 2,
+  },
+]
 
 const addPai = (pai: Pai) => {
   switch (mode.value) {
@@ -426,6 +447,7 @@ const calculate = async () => {
       player_wind: playerWind.value,
     }
   })
+  isResultVisible.value = true
   console.log(data)
 }
 </script>
