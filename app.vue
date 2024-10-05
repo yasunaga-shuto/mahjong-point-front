@@ -108,6 +108,13 @@
           </div>
           <div class="mb-3">
             <el-switch
+              v-model="kiriage"
+              size="large"
+              active-text="切り上げ満貫"
+            />
+          </div>
+          <div class="mb-3">
+            <el-switch
               v-model="hasAkaDora"
               size="large"
               active-text="赤あり"
@@ -169,6 +176,8 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import ja from "@/lang/ja.json"
+console.log(ja.yaku)
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -191,16 +200,46 @@ const mode = ref<Mode>('')
 const how = ref('ロン')
 const riichi = ref('なし')
 const ippatsu = ref(false)
+const kiriage = ref(true)
 const hasAkaDora = ref(true)
 const chankan = ref(false)
 const linshan = ref(false)
 const haitei = ref(false)
 const hora = ref(false)
 const doraIndicators = ref<Pai[]>([])
-const agariPai = ref('4p')
+const agariPai = ref('8m')
 
 // TODO: デバッグ用後で消す
-const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', 'sha', 'sha'])
+// const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+// 一盃口
+// const tehai = ref<Pai[]>(['2m', '2m', '3m', '3m', '4m', '4m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+// 役牌
+// const tehai = ref<Pai[]>(['haku', 'haku', 'haku', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+// const tehai = ref<Pai[]>(['hatsu', 'hatsu', 'hatsu', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+// const tehai = ref<Pai[]>(['chun', 'chun', 'chun', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+// 自風・場風
+// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
+// チートイツ
+// const tehai = ref<Pai[]>(['1m', '1m', '3m', '3m', '5m', '5m', '1s', '1s', '4p', '5pRed', '5p', 'sha', 'sha'])
+// トイトイ・三暗刻・三色
+// const tehai = ref<Pai[]>(['1m', '1m', '1m', '1p', '1p', '1p', '1s', '1s', '1s', '4p', '4p', 'sha', 'sha'])
+// 三色同順
+// const tehai = ref<Pai[]>(['1m', '2m', '3m', '1p', '2p', '3p', '1s', '2s', '3s', '4p', '4p', 'sha', 'sha'])
+// ホンロウトウ
+// const tehai = ref<Pai[]>(['1m', '1m', '1m', '1p', '1p', '1p', '1s', '1s', '1s', '9p', '9p', 'sha', 'sha'])
+// 一通
+// const tehai = ref<Pai[]>(['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '9p', '9p', 'sha', 'sha'])
+// チャンタ
+// const tehai = ref<Pai[]>(['1m', '2m', '3m', '1p', '2p', '3p', '1s', '2s', '3s', '9p', '9p', 'sha', 'sha'])
+// 小三元
+// const tehai = ref<Pai[]>(['1m', '2m', '3m', 'haku', 'haku', 'haku', 'hatsu', 'hatsu', 'hatsu', 'chun', 'chun', 'sha', 'sha'])
+// ジュンチャン
+// const tehai = ref<Pai[]>(['1m', '2m', '3m', '1p', '2p', '3p', '1s', '2s', '3s', '9p', '9p', '9s', '9s'])
+// 二盃口
+// const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '1s', '1s', '2s', '2s', '3s', '3s', '9s'])
+// 清一色
+const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '4m', '4m', '4m', '5m', '6m', '7m', '8m'])
+
 // const tehai = ref<Pai[]>([])
 const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
 
@@ -404,7 +443,7 @@ const calculate = async () => {
   pin += p
   sou += s
   honors += h
-  console.log(man, pin, sou)
+  console.log(man, pin, sou, honors)
   man = man.split('').sort().join('')
   pin = pin.split('').sort().join('')
   sou = sou.split('').sort().join('')
@@ -424,6 +463,21 @@ const calculate = async () => {
   //     has_aka_dora: true,
   //   }
   // })
+  let isHaitei: boolean = false
+  let isHoutei: boolean = false
+  if (haitei.value) {
+    switch (how.value) {
+    case 'ツモ':
+      isHaitei = true
+      isHoutei = false
+      break
+    case 'ロン':
+      isHaitei = false
+      isHoutei = true
+      break
+    }
+  }
+
   const data = await $fetch('http://localhost:8080', {
     method: 'POST',
     body: {
@@ -435,13 +489,15 @@ const calculate = async () => {
       win_tile: agariPai.value,
       melds: hupai.value,
       has_aka_dora: hasAkaDora.value,
+      kiriage: kiriage.value,
       is_riichi: riichi.value === 'リーチ',
       is_tsumo: how.value === 'ツモ',
       is_daburu_riichi: riichi.value === 'ダブルリーチ',
       is_ippatsu: ippatsu.value,
       is_chankan: chankan.value,
       is_rinshan: linshan.value,
-      is_haitei: haitei.value,
+      is_haitei: isHaitei,
+      is_houtei: isHoutei,
       is_tenhou: hora.value,
       round_wind: roundWind.value,
       player_wind: playerWind.value,
