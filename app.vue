@@ -63,6 +63,7 @@
       <!-- モード -->
       <div class="mb-6">
         <el-radio-group v-model="mode" size="large" @input="inputMode">
+          <el-radio-button label="手牌選択" value="normal" />
           <el-radio-button label="チー" value="chi" />
           <el-radio-button label="ポン" value="pon" />
           <el-radio-button label="カン" value="kan" />
@@ -195,13 +196,13 @@ type Pinzu = typeof PINZU[number]
 type Sozu = typeof SOZU[number]
 type Tupai = typeof TUPAI[number]
 type Pai = Manzu | Pinzu | Sozu | Tupai
-type Mode = 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
+type Mode = 'normal' | 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
 
 const roundWind = ref('ton')
 const playerWind = ref('ton')
 const honba = ref(0)
 
-const mode = ref<Mode>('')
+const mode = ref<Mode>('normal')
 const how = ref('ロン')
 const riichi = ref('なし')
 const ippatsu = ref(false)
@@ -357,8 +358,8 @@ const sort = () => {
   tehai.value = t
 }
 const reset = () => {
-  mode.value = ''
-  how.value = ''
+  mode.value = 'normal'
+  how.value = 'ロン'
   riichi.value = 'なし'
   ippatsu.value = false
   chankan.value = false
