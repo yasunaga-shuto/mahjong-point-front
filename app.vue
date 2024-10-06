@@ -272,14 +272,19 @@ const result = ref([])
 const resultSummary = ref({})
 
 const resultSummaryText = computed(() => {
+  let text = ''
   if (how.value === 'ロン') {
-    return `${resultSummary.value.main}点`
-  }
-  if (playerWind.value === 'ton') {
-    return `${resultSummary.value.main}点オール`
+    const kyotaku = honba.value * 300
+    text = `${resultSummary.value.main + kyotaku}点`
   } else {
-    return `${resultSummary.value.main}点（親） ${resultSummary.value.additional}点（子）`
+    const kyotaku = honba.value * 100
+    if (playerWind.value === 'ton') {
+      text = `${resultSummary.value.main + kyotaku}点オール`
+    } else {
+      text = `${resultSummary.value.main + kyotaku}点（親） ${resultSummary.value.additional + kyotaku}点（子）`
+    }
   }
+  return text
 })
 
 const addPai = (pai: Pai) => {
