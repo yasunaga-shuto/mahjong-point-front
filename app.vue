@@ -170,6 +170,9 @@
         <el-table-column property="han" label="翻数" width="200" />
       </el-table>
       <div class="flex">
+        <div class="text-lg ml-3 pt-3">{{ ja.yaku_level[resultSummary.yakuLevel] }}</div>
+      </div>
+      <div class="flex">
         <div class="text-lg ml-3 pt-3">{{ resultSummary.totalHan }}翻</div>
         <div class="text-lg ml-3 pt-3">{{ resultSummaryText }}</div>
       </div>
