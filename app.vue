@@ -1,8 +1,8 @@
 <template>
   <div>
     <OrganismsHeader />
-    <div class="container mx-auto w-3/4 mt-8 mb-48">
-      <div class="flex justify-between items-center my-6">
+    <div class="container mx-auto mt-8 mb-48 w-11/12 md:w-3/4">
+      <div class="flex justify-between items-center my-6 flex-wrap">
         <div class="flex items-center gap-6">
           <!-- 場風 -->
           <div class="flex items-center">
@@ -32,30 +32,30 @@
           </div>
         </div>
         <!-- ドラ表示牌 -->
-        <div class="border border-gray-400 rounded-md py-3 px-6">
-          ドラ表示牌
+        <div class="border border-gray-400 rounded-md py-3 px-6 mt-3">
+          <div class="mb-2">ドラ表示牌</div>
           <div class="text-center">
-            <img v-for="(d, index) in doraIndicators" :key="index" :src="`/pai/${d}.png`" width="37" class="inline">
+            <img v-for="(d, index) in doraIndicators" :key="index" :src="`/pai/${d}.png`" width="37" class="inline md:w-12 w-6">
           </div>
         </div>
       </div>
       <!-- 手牌 -->
-      <div class="border w-full h-52 border-gray-400 rounded-md mb-6 flex items-center justify-center relative">
-        <el-button class="absolute top-4 right-8" @click="sort">並び替え（埋牌）</el-button>
-        <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" width="47">
-        <img v-if="agariPai" class="ml-3" :src="`/pai/${agariPai}.png`" width="47">
+      <div class="border w-full border-gray-400 rounded-md mb-6 flex items-center justify-center relative flex-wrap pt-11 pb-10">
+        <el-button class="absolute top-2 md:top-4 right-5 md:right-8" @click="sort">並び替え</el-button>
+        <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" class="md:w-12 w-5">
+        <img v-if="agariPai" class="ml-3 md:w-12 w-5" :src="`/pai/${agariPai}.png`">
 
-        <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4">
+        <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4 flex">
           <!-- カン -->
           <template v-if="t.type === 'ankan'">
-            <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-              <img v-if="j === 0 || j === t.pai.length - 1" src="/pai/back.png" class="inline-block h-16" width="47">
-              <img v-else :src="`/pai/${p}.png`" class="inline-block h-16" width="47">
-            </span>
+            <div v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
+              <img v-if="j === 0 || j === t.pai.length - 1" src="/pai/back.png" class="inline-block h-9 md:h-16 md:w-12 w-6">
+              <img v-else :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6">
+            </div>
           </template>
           <template v-else>
             <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-              <img :src="`/pai/${p}.png`" class="inline-block h-16" :class="{ 'rotate-[270deg] mr-2': j === 0 }" width="47">
+              <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] mr-2': j === 0 }">
             </span>
           </template>
         </div>
@@ -74,22 +74,22 @@
       <div class="flex">
         <div class="h-36 w-3/6">
           <div class="mb-3">
-            <img v-for="(man, index) in MANZU" :key="index" :src="`/pai/${man}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(man)">
+            <img v-for="(man, index) in MANZU" :key="index" :src="`/pai/${man}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai(man)">
           </div>
           <div class="mb-3">
-            <img v-for="(pin, index) in PINZU" :key="index" :src="`/pai/${pin}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(pin)">
+            <img v-for="(pin, index) in PINZU" :key="index" :src="`/pai/${pin}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai(pin)">
           </div>
           <div class="mb-3">
-            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai(sou)">
+            <img v-for="(sou, index) in SOZU" :key="index" :src="`/pai/${sou}.png`" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai(sou)">
           </div>
           <div class="mb-3">
-            <img src="/pai/ton.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('ton')">
-            <img src="/pai/nan.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('nan')">
-            <img src="/pai/sha.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('sha')">
-            <img src="/pai/pei.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('pei')">
-            <img src="/pai/haku.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('haku')">
-            <img src="/pai/hatsu.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('hatsu')">
-            <img src="/pai/chun.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3" width="47" @click="addPai('chun')">
+            <img src="/pai/ton.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('ton')">
+            <img src="/pai/nan.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('nan')">
+            <img src="/pai/sha.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('sha')">
+            <img src="/pai/pei.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('pei')">
+            <img src="/pai/haku.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('haku')">
+            <img src="/pai/hatsu.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('hatsu')">
+            <img src="/pai/chun.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('chun')">
           </div>
         </div>
         <div class="w-3/6">
@@ -158,8 +158,8 @@
         </div>
       </div>
     </div>
-    <div class="w-full flex items-center fixed bottom-0 h-28" style="background-color: rgba(0, 0, 0, 0.5);">
-      <div class="w-3/4 mx-auto flex justify-end">
+    <div class="w-full flex items-center fixed bottom-0 h-20" style="background-color: rgba(0, 0, 0, 0.5);">
+      <div class="w-11/12 md:w-3/4 mx-auto flex justify-end">
         <el-button size="large" @click="reset">リセット</el-button>
         <el-button type="primary" size="large" @click="calculate">計算</el-button>
       </div>
