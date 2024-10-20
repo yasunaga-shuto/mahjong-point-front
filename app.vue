@@ -40,24 +40,29 @@
         </div>
       </div>
       <!-- 手牌 -->
-      <div class="border w-full border-gray-400 rounded-md mb-6 flex items-center justify-center relative flex-wrap pt-11 pb-10">
-        <el-button class="absolute top-2 md:top-4 right-5 md:right-8" @click="sort">並び替え</el-button>
-        <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" class="md:w-12 w-5">
-        <img v-if="agariPai" class="ml-3 md:w-12 w-5" :src="`/pai/${agariPai}.png`">
+      <div class="border w-full border-gray-400 rounded-md mb-6 pt-8 pb-10">
+        <div class="flex justify-end pr-4">
+          <el-button :icon="Sort" @click="sort">並び替え</el-button>
+          <el-button type="danger" :icon="Delete" plain @click="deletePai">牌削除</el-button>
+        </div>
+        <div class="flex items-center justify-center relative flex-wrap">
+          <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" class="md:w-12 w-5">
+          <img v-if="agariPai" class="ml-3 md:w-12 w-5" :src="`/pai/${agariPai}.png`">
 
-        <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4 flex">
-          <!-- カン -->
-          <template v-if="t.type === 'ankan'">
-            <div v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-              <img v-if="j === 0 || j === t.pai.length - 1" src="/pai/back.png" class="inline-block h-9 md:h-16 md:w-12 w-6">
-              <img v-else :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6">
-            </div>
-          </template>
-          <template v-else>
-            <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-              <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] mr-2': j === 0 }">
-            </span>
-          </template>
+          <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4 flex">
+            <!-- カン -->
+            <template v-if="t.type === 'ankan'">
+              <div v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
+                <img v-if="j === 0 || j === t.pai.length - 1" src="/pai/back.png" class="inline-block h-9 md:h-16 md:w-12 w-6">
+                <img v-else :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6">
+              </div>
+            </template>
+            <template v-else>
+              <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
+                <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] mr-2': j === 0 }">
+              </span>
+            </template>
+          </div>
         </div>
       </div>
       <!-- モード -->
@@ -186,6 +191,10 @@
 import { ref } from 'vue'
 import ja from "@/lang/ja.json"
 import { ElMessage } from "element-plus"
+import {
+  Sort,
+  Delete,
+} from '@element-plus/icons-vue'
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -347,6 +356,11 @@ const addPai = (pai: Pai) => {
     tehai.value.push(pai)
   }
 }
+
+const deletePai = () => {
+  tehai.value.pop()
+}
+
 const inputMode = (event: { target: HTMLInputElement }) => {
   const mode = event.target.value
   if (mode !== 'chi') {
