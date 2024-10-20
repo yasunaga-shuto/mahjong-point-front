@@ -63,7 +63,7 @@
       <!-- モード -->
       <div class="mb-6">
         <el-radio-group v-model="mode" size="large" @input="inputMode">
-          <el-radio-button label="手牌選択" value="normal" />
+          <el-radio-button label="手牌選択" value="" />
           <el-radio-button label="チー" value="chi" />
           <el-radio-button label="ポン" value="pon" />
           <el-radio-button label="カン" value="kan" />
@@ -171,11 +171,12 @@
         <el-table-column property="han" label="翻数" width="200" />
       </el-table>
       <div class="flex">
-        <div class="text-lg ml-3 pt-3">{{ ja.yaku_level[resultSummary.yakuLevel] }}</div>
-      </div>
-      <div class="flex">
+        <div class="text-lg ml-3 pt-3">30符</div>
         <div class="text-lg ml-3 pt-3">{{ resultSummary.totalHan }}翻</div>
-        <div class="text-lg ml-3 pt-3">{{ resultSummaryText }}</div>
+      </div>
+      <div class="text-2xl flex">
+        <div v-if="ja.yaku_level[resultSummary.yakuLevel]" class="ml-3 pt-3 font-bold">{{ ja.yaku_level[resultSummary.yakuLevel] }}</div>
+        <div class="ml-3 pt-3 font-bold">{{ resultSummaryText }}</div>
       </div>
     </el-dialog>
   </div>
@@ -184,6 +185,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import ja from "@/lang/ja.json"
+import { ElMessage } from "element-plus"
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -196,13 +198,13 @@ type Pinzu = typeof PINZU[number]
 type Sozu = typeof SOZU[number]
 type Tupai = typeof TUPAI[number]
 type Pai = Manzu | Pinzu | Sozu | Tupai
-type Mode = 'normal' | 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
+type Mode = '' | 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
 
 const roundWind = ref('ton')
 const playerWind = ref('ton')
 const honba = ref(0)
 
-const mode = ref<Mode>('normal')
+const mode = ref<Mode>('')
 const how = ref('ロン')
 const riichi = ref('なし')
 const ippatsu = ref(false)
@@ -446,7 +448,7 @@ type ResultType = {
     total: number
     yaku_level: string
   }
-  error: Object
+  error: null | string
   fu: number
   fu_details: { fu: number, reason: string }[]
   han: number
@@ -582,6 +584,10 @@ const calculate = async () => {
     }
   })
   console.log(data)
+  if (data.error !== null) {
+    ElMessage({ type: "error", title: "エラー", message: ja.error[data.error as keyof typeof ja.error] })
+    return
+  }
   result.value = []
   resultSummary.value = {
     main: 0,

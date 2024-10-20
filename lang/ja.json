@@ -61,5 +61,8 @@
     "5x yakuman": "5倍役満",
     "6x yakuman": "6倍役満",
     "7x yakuman": "7倍役満"
+  },
+  "error": {
+    "winning_tile_not_in_hand": "あがり牌が選択されていません。和了牌からあがり牌を選択してください。"
   }
 }
