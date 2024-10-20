@@ -40,7 +40,7 @@
         </div>
       </div>
       <!-- 手牌 -->
-      <div class="border w-full border-gray-400 rounded-md mb-6 pt-8 pb-10">
+      <div class="border w-full border-gray-400 rounded-md mb-6 py-8">
         <div class="flex justify-end pr-4 mb-3">
           <el-button :icon="Sort" @click="sort">並び替え</el-button>
           <el-button type="danger" :icon="Delete" plain @click="deletePai">牌削除</el-button>
@@ -382,7 +382,16 @@ const inputMode = (event: { target: HTMLInputElement }) => {
 
 // モード選択のバリデーション
 watch(mode, (newMode: Mode) => {
-  console.log(newMode)
+  switch (newMode) {
+  case 'chi':
+    modeDisabled.value.default = true
+    modeDisabled.value.pon = true
+    modeDisabled.value.kan = true
+    modeDisabled.value.ankan = true
+    modeDisabled.value.doraIndicators = true
+    modeDisabled.value.agariPai = true
+    break
+  }
 })
 
 const sort = () => {
@@ -467,6 +476,12 @@ const calculate = async () => {
   let pin = ''
   let sou = ''
   let honors = ''
+  // clean up hupai
+  for (let i = 0; i < hupai.value.length; i++) {
+    if (hupai.value[i] && hupai.value[i].pai.length <= 0) {
+      hupai.value.splice(i, 1)
+    }
+  }
   for (const t of tehai.value) {
     const [m, p, s, h] = getTileNum(t)
     man += m
