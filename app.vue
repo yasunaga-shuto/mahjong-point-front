@@ -46,7 +46,7 @@
           <el-button type="danger" :icon="Delete" plain @click="deletePai">牌削除</el-button>
         </div>
         <div class="flex items-center justify-center relative flex-wrap">
-          <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" class="md:w-12 w-5">
+          <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" class="md:w-12 w-6">
           <img v-if="agariPai" class="ml-3 md:w-12 w-5" :src="`/pai/${agariPai}.png`">
 
           <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4 flex">
@@ -59,7 +59,7 @@
             </template>
             <template v-else>
               <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-                <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] mr-2': j === 0 }">
+                <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] mr-2 mt-2': j === 0 }">
               </span>
             </template>
           </div>
@@ -67,7 +67,7 @@
       </div>
       <!-- モード -->
       <div class="mb-6">
-        <el-radio-group v-model="mode" size="large" @input="inputMode">
+        <el-radio-group v-model="mode" size="large">
           <el-radio-button label="手牌選択" value="" :disabled="modeDisabled.default" />
           <el-radio-button label="チー" value="chi" :disabled="modeDisabled.chi" />
           <el-radio-button label="ポン" value="pon" :disabled="modeDisabled.pon" />
@@ -327,8 +327,12 @@ const addPai = (pai: Pai) => {
   switch (mode.value) {
   case 'chi':
     const last = hupai.value.slice(-1)[0]
-    last.pai.push(pai)
-    hupai.value[hupai.length - 1] = last
+    if (!last || last.type !== 'chi') {
+      hupai.value.push({ type: 'chi', pai: [pai] })
+    } else {
+      last.pai.push(pai)
+      hupai.value[hupai.length - 1] = last
+    }
     if (last && last.pai.length === 3) {
       mode.value = ''
     }
@@ -372,17 +376,17 @@ const deletePai = () => {
   tehai.value.pop()
 }
 
-const inputMode = (event: { target: HTMLInputElement }) => {
-  const mode = event.target.value
-  if (mode !== 'chi') {
-    return
-  }
-  hupai.value.push({ type: mode, pai: [] })
-}
-
 // モード選択のバリデーション
 watch(mode, (newMode: Mode) => {
   switch (newMode) {
+  case '':
+    modeDisabled.value.default = false
+    modeDisabled.value.pon = false
+    modeDisabled.value.kan = false
+    modeDisabled.value.ankan = false
+    modeDisabled.value.doraIndicators = false
+    modeDisabled.value.agariPai = false
+    break
   case 'chi':
     modeDisabled.value.default = true
     modeDisabled.value.pon = true
