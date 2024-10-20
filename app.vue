@@ -41,7 +41,7 @@
       </div>
       <!-- 手牌 -->
       <div class="border w-full border-gray-400 rounded-md mb-6 pt-8 pb-10">
-        <div class="flex justify-end pr-4">
+        <div class="flex justify-end pr-4 mb-3">
           <el-button :icon="Sort" @click="sort">並び替え</el-button>
           <el-button type="danger" :icon="Delete" plain @click="deletePai">牌削除</el-button>
         </div>
@@ -68,13 +68,13 @@
       <!-- モード -->
       <div class="mb-6">
         <el-radio-group v-model="mode" size="large" @input="inputMode">
-          <el-radio-button label="手牌選択" value="" />
-          <el-radio-button label="チー" value="chi" />
-          <el-radio-button label="ポン" value="pon" />
-          <el-radio-button label="カン" value="kan" />
-          <el-radio-button label="暗カン" value="ankan" />
-          <el-radio-button label="ドラ表示牌" value="dora_indicators" />
-          <el-radio-button label="和了牌" value="agari" />
+          <el-radio-button label="手牌選択" value="" :disabled="modeDisabled.default" />
+          <el-radio-button label="チー" value="chi" :disabled="modeDisabled.chi" />
+          <el-radio-button label="ポン" value="pon" :disabled="modeDisabled.pon" />
+          <el-radio-button label="カン" value="kan" :disabled="modeDisabled.kan" />
+          <el-radio-button label="暗カン" value="ankan" :disabled="modeDisabled.ankan" />
+          <el-radio-button label="ドラ表示牌" value="dora_indicators" :disabled="modeDisabled.doraIndicators" />
+          <el-radio-button label="和了牌" value="agari" :disabled="modeDisabled.agariPai" />
         </el-radio-group>
       </div>
       <div class="flex">
@@ -176,7 +176,7 @@
         <el-table-column property="han" label="翻数" width="200" />
       </el-table>
       <div class="flex">
-        <div class="text-lg ml-3 pt-3">30符</div>
+        <div class="text-lg ml-3 pt-3">{{ resultSummary.fu }}符</div>
         <div class="text-lg ml-3 pt-3">{{ resultSummary.totalHan }}翻</div>
       </div>
       <div class="text-2xl flex">
@@ -188,7 +188,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import ja from "@/lang/ja.json"
 import { ElMessage } from "element-plus"
 import {
@@ -208,7 +208,7 @@ type Pinzu = typeof PINZU[number]
 type Sozu = typeof SOZU[number]
 type Tupai = typeof TUPAI[number]
 type Pai = Manzu | Pinzu | Sozu | Tupai
-type Mode = '' | 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators' | ''
+type Mode = '' | 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators'
 
 const roundWind = ref('ton')
 const playerWind = ref('ton')
@@ -226,6 +226,16 @@ const haitei = ref(false)
 const hora = ref(false)
 const doraIndicators = ref<Pai[]>([])
 const agariPai = ref('')
+
+const modeDisabled = ref({
+  default: false,
+  chi: false,
+  pon: false,
+  kan: false,
+  ankan: false,
+  doraIndicators: false,
+  agariPai: false,
+})
 
 // const tehai = ref<Pai[]>([])
 // TODO: デバッグ用後で消す
@@ -305,11 +315,11 @@ const addPai = (pai: Pai) => {
   case 'agari':
     agariPai.value = pai
     mode.value = ''
-    break
+    return
   case 'dora_indicators':
     doraIndicators.value.push(pai)
     mode.value = ''
-    break
+    return
   }
   if (tehai.value.length + hupai.value.length * 3 >= 13) {
     return
@@ -370,6 +380,11 @@ const inputMode = (event: { target: HTMLInputElement }) => {
   hupai.value.push({ type: mode, pai: [] })
 }
 
+// モード選択のバリデーション
+watch(mode, (newMode: Mode) => {
+  console.log(newMode)
+})
+
 const sort = () => {
   const order = [...MANZU, ...PINZU, ...SOZU, ...TUPAI]
   const t = tehai.value.sort((x: Pai, y: Pai) => order.indexOf(x) - order.indexOf(y))
@@ -377,7 +392,7 @@ const sort = () => {
 }
 
 const reset = () => {
-  mode.value = 'normal'
+  mode.value = ''
   how.value = 'ロン'
   riichi.value = 'なし'
   ippatsu.value = false
@@ -584,7 +599,8 @@ const calculate = async () => {
     main: 0,
     additional: 0,
     totalHan: 0,
-    yakuLevel: ''
+    yakuLevel: '',
+    fu: 0,
   }
   for (const yaku of data.yaku) {
     result.value.push({
@@ -596,6 +612,7 @@ const calculate = async () => {
   resultSummary.value.main = data.cost.main
   resultSummary.value.additional = data.cost.additional
   resultSummary.value.yakuLevel = data.cost.yaku_level
+  resultSummary.value.fu = data.fu
   isResultVisible.value = true
 }
 </script>
