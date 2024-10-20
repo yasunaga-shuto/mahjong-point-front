@@ -195,6 +195,7 @@ import {
   Sort,
   Delete,
 } from '@element-plus/icons-vue'
+import type { ResultYaku, ResultType } from "~/@types/result"
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -368,11 +369,13 @@ const inputMode = (event: { target: HTMLInputElement }) => {
   }
   hupai.value.push({ type: mode, pai: [] })
 }
+
 const sort = () => {
   const order = [...MANZU, ...PINZU, ...SOZU, ...TUPAI]
   const t = tehai.value.sort((x: Pai, y: Pai) => order.indexOf(x) - order.indexOf(y))
   tehai.value = t
 }
+
 const reset = () => {
   mode.value = 'normal'
   how.value = 'ロン'
@@ -442,32 +445,6 @@ const getTileNum = (t: Pai) => {
     break
   }
   return [man, pin, sou, honor]
-}
-
-type ResultYaku = {
-  han_closed: number
-  han_open: Object
-  is_yakuman: boolean
-  name: string
-  tenhou_id: number
-  yaku_id: number
-}
-type ResultType = {
-  cost: {
-    additional: number
-    additional_bonus: number
-    kyoutaku_bonus: number
-    main: number
-    main_bonus: number
-    total: number
-    yaku_level: string
-  }
-  error: null | string
-  fu: number
-  fu_details: { fu: number, reason: string }[]
-  han: number
-  is_open_hand: boolean
-  yaku: ResultYaku[]
 }
 
 const calculate = async () => {
