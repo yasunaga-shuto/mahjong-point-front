@@ -63,6 +63,27 @@
     "7x yakuman": "7倍役満"
   },
   "error": {
-    "winning_tile_not_in_hand": "あがり牌が選択されていません。和了牌からあがり牌を選択してください。"
+    "winning_tile_not_in_hand": "あがり牌が選択されていません。和了牌からあがり牌を選択してください。",
+    "no_yaku": "役がありません。",
+    "rinshan_without_tsumo_not_allowed": "嶺上開花はツモのみで成立します。",
+    "open_hand_riichi_not_allowed": "鳴いているため立直はできません。",
+    "open_hand_daburi_not_allowed": "鳴いているためダブル立直はできません。",
+    "ippatsu_without_riichi_not_allowed": "立直をしていないため、一発は指定できません。",
+    "hand_not_winning": "手牌があがれる形になっていません。",
+    "hand_not_correct": "手牌が正しくありません。",
+    "chankan_with_tsumo_not_allowed": "チャンカンとツモは同時に成立しません。",
+    "haitei_without_tsumo_not_allowed": "ハイテイの場合、ツモを指定してください。",
+    "houtei_with_tsumo_not_allowed": "ホウテイとツモは同時に成立しません。",
+    "haitei_with_rinshan_not_allowed": "ハイテイとリンシャンは同時に成立しません。",
+    "houtei_with_chankan_not_allowed": "ホウテイとチャンカんは同時に成立しません。",
+    "tenhou_not_as_dealer_not_allowed": "子の時に天和は成立しません。",
+    "tenhou_without_tsumo_not_allowed": "天和の場合、ツモを指定してください。",
+    "tenhou_with_meld_not_allowed": "鳴いているため、天和は成立しません。",
+    "chiihou_as_dealer_not_allowed": "親の時に地和は成立しません。",
+    "chiihou_without_tsumo_not_allowed": "地和の場合、ツモを指定してください。",
+    "chiihou_with_meld_not_allowed": "鳴いているため、地和は成立しません。",
+    "renhou_as_dealer_not_allowed": "親の時に人和は成立しません。",
+    "renhou_with_tsumo_not_allowed": "人和の場合、ツモを指定してください。",
+    "renhou_with_meld_not_allowed": "鳴いているため、人和は成立しません。"
   }
 }
