@@ -203,6 +203,13 @@ import {
 import type { ResultType } from "~/@types/result"
 import { ElLoading } from 'element-plus'
 
+useHead({
+  title: '麻雀 | 点数計算',
+  meta: [
+    { name: 'description', content: '麻雀の点数計算をシンプルにできるサイトです。初心者の方や点数計算が苦手な方、是非ご活用ください。' }
+  ],
+})
+
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
 const PINZU = ['1p', '2p', '3p', '4p', '5p', '5pRed', '6p', '7p', '8p', '9p'] as const
