@@ -15,7 +15,7 @@ services:
     ports:
       - 3000:3000
     environment:
-      FRONTEND_URL: http://localhost:3000
+      NUXT_PUBLIC_API_URL: http://localhost:8080
 
 # networks:
 #   shared:

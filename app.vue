@@ -195,7 +195,7 @@ import {
   Sort,
   Delete,
 } from '@element-plus/icons-vue'
-import type { ResultYaku, ResultType } from "~/@types/result"
+import type { ResultType } from "~/@types/result"
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -236,6 +236,8 @@ const modeDisabled = ref({
   doraIndicators: false,
   agariPai: false,
 })
+
+const config = useRuntimeConfig()
 
 // const tehai = ref<Pai[]>([])
 // TODO: デバッグ用後で消す
@@ -534,21 +536,6 @@ const calculate = async () => {
   pin = pin.split('').sort().join('')
   sou = sou.split('').sort().join('')
   honors = honors.split('').sort().join('')
-  // const data = await $fetch('http://localhost:8080', {
-  //   method: 'POST',
-  //   body: {
-  //     man: '234678',
-  //     pin: '5r55',
-  //     sou: '23455',
-  //     honors: '',
-  //     dora_indicators: ['1m', '1p'],
-  //     win_tile: '2s',
-  //     melds: [
-  //       { type: 'ankan', pai: ['back', '5p', '5p', 'back'] },
-  //     ],
-  //     has_aka_dora: true,
-  //   }
-  // })
   let isHaitei: boolean = false
   let isHoutei: boolean = false
   if (haitei.value) {
@@ -581,7 +568,7 @@ const calculate = async () => {
     }
   }
 
-  const data: ResultType = await $fetch('http://localhost:8080', {
+  const data: ResultType = await $fetch(config.public.apiUrl, {
     method: 'POST',
     body: {
       man,
