@@ -596,7 +596,7 @@ const calculate = async () => {
         player_wind: playerWind.value,
       }
     })
-    console.log(data)
+    console.error(data)
     if (data.error !== null) {
       let e = ja.error[data.error as keyof typeof ja.error] ? ja.error[data.error as keyof typeof ja.error] : data.error
       ElMessage({ type: "error", title: "エラー", message: e })
