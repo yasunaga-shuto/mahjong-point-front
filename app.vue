@@ -568,58 +568,62 @@ const calculate = async () => {
     }
   }
 
-  const data: ResultType = await $fetch(config.public.apiUrl, {
-    method: 'POST',
-    body: {
-      man,
-      sou,
-      pin,
-      honors,
-      dora_indicators: doraIndicators.value,
-      win_tile: agariPai.value,
-      melds: hupai.value,
-      has_aka_dora: hasAkaDora.value,
-      kiriage: kiriage.value,
-      is_riichi: riichi.value === 'リーチ',
-      is_tsumo: how.value === 'ツモ',
-      is_daburu_riichi: riichi.value === 'ダブルリーチ',
-      is_ippatsu: ippatsu.value,
-      is_chankan: chankan.value,
-      is_rinshan: linshan.value,
-      is_haitei: isHaitei,
-      is_houtei: isHoutei,
-      is_tenhou: isTenhou,
-      is_chiihou: isChiihou,
-      is_renhou: isRenhou,
-      round_wind: roundWind.value,
-      player_wind: playerWind.value,
-    }
-  })
-  console.log(data)
-  if (data.error !== null) {
-    let e = ja.error[data.error as keyof typeof ja.error] ? ja.error[data.error as keyof typeof ja.error] : data.error
-    ElMessage({ type: "error", title: "エラー", message: e })
-    return
-  }
-  result.value = []
-  resultSummary.value = {
-    main: 0,
-    additional: 0,
-    totalHan: 0,
-    yakuLevel: '',
-    fu: 0,
-  }
-  for (const yaku of data.yaku) {
-    result.value.push({
-      name: ja.yaku[yaku.name as keyof typeof ja.yaku],
-      han: yaku.han_closed,
+  try {
+    const data: ResultType = await $fetch(config.public.apiUrl, {
+      method: 'POST',
+      body: {
+        man,
+        sou,
+        pin,
+        honors,
+        dora_indicators: doraIndicators.value,
+        win_tile: agariPai.value,
+        melds: hupai.value,
+        has_aka_dora: hasAkaDora.value,
+        kiriage: kiriage.value,
+        is_riichi: riichi.value === 'リーチ',
+        is_tsumo: how.value === 'ツモ',
+        is_daburu_riichi: riichi.value === 'ダブルリーチ',
+        is_ippatsu: ippatsu.value,
+        is_chankan: chankan.value,
+        is_rinshan: linshan.value,
+        is_haitei: isHaitei,
+        is_houtei: isHoutei,
+        is_tenhou: isTenhou,
+        is_chiihou: isChiihou,
+        is_renhou: isRenhou,
+        round_wind: roundWind.value,
+        player_wind: playerWind.value,
+      }
     })
-    resultSummary.value.totalHan += yaku.han_closed
+    console.log(data)
+    if (data.error !== null) {
+      let e = ja.error[data.error as keyof typeof ja.error] ? ja.error[data.error as keyof typeof ja.error] : data.error
+      ElMessage({ type: "error", title: "エラー", message: e })
+      return
+    }
+    result.value = []
+    resultSummary.value = {
+      main: 0,
+      additional: 0,
+      totalHan: 0,
+      yakuLevel: '',
+      fu: 0,
+    }
+    for (const yaku of data.yaku) {
+      result.value.push({
+        name: ja.yaku[yaku.name as keyof typeof ja.yaku],
+        han: yaku.han_closed,
+      })
+      resultSummary.value.totalHan += yaku.han_closed
+    }
+    resultSummary.value.main = data.cost.main
+    resultSummary.value.additional = data.cost.additional
+    resultSummary.value.yakuLevel = data.cost.yaku_level
+    resultSummary.value.fu = data.fu
+    isResultVisible.value = true
+  } catch (e) {
+    console.error(e)
   }
-  resultSummary.value.main = data.cost.main
-  resultSummary.value.additional = data.cost.additional
-  resultSummary.value.yakuLevel = data.cost.yaku_level
-  resultSummary.value.fu = data.fu
-  isResultVisible.value = true
 }
 </script>
