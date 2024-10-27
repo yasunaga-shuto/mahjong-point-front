@@ -97,6 +97,11 @@
             <img src="/pai/hatsu.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('hatsu')">
             <img src="/pai/chun.png" alt="pai1" class="inline-block cursor-pointer hover:-mt-3 md:w-12 w-8" width="47" @click="addPai('chun')">
           </div>
+          <div class="text-xs inline-block mt-6">
+            画像出典:
+            <cite class="block">https://majandofu.com/mahjong-images</cite>
+            <cite class="block">https://mj-king.net/sozai/</cite>
+          </div>
         </div>
         <div class="w-3/6">
           <div class="mb-3">
@@ -283,14 +288,15 @@ const addPai = (pai: Pai) => {
   switch (mode.value) {
   case 'chi':
     const last = hupai.value.slice(-1)[0]
-    if (!last || last.type !== 'chi') {
+    console.log(last)
+    if (!last || last.type !== 'chi' || last.pai.length === 3) {
       hupai.value.push({ type: 'chi', pai: [pai] })
     } else {
       last.pai.push(pai)
       hupai.value[hupai.length - 1] = last
-    }
-    if (last && last.pai.length === 3) {
-      mode.value = ''
+      if (last && last.pai.length === 3) {
+        mode.value = ''
+      }
     }
     break
   case 'pon':
