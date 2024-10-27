@@ -597,7 +597,8 @@ const calculate = async () => {
   })
   console.log(data)
   if (data.error !== null) {
-    ElMessage({ type: "error", title: "エラー", message: ja.error[data.error as keyof typeof ja.error] })
+    let e = ja.error[data.error as keyof typeof ja.error] ? ja.error[data.error as keyof typeof ja.error] : data.error
+    ElMessage({ type: "error", title: "エラー", message: e })
     return
   }
   result.value = []
