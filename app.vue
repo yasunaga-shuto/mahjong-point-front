@@ -47,7 +47,7 @@
         </div>
         <div class="flex items-center justify-center relative flex-wrap">
           <img v-for="(t, index) in tehai" :key="index" :src="`/pai/${t}.png`" class="md:w-12 w-6">
-          <img v-if="agariPai" class="ml-3 md:w-12 w-5" :src="`/pai/${agariPai}.png`">
+          <img v-if="agariPai" class="ml-3 md:w-12 w-6" :src="`/pai/${agariPai}.png`">
 
           <div v-for="(t, i) in hupai" :key="`hupai-${i}`" class="ml-4 flex">
             <!-- カン -->
@@ -201,6 +201,7 @@ import {
   Delete,
 } from '@element-plus/icons-vue'
 import type { ResultType } from "~/@types/result"
+import { ElLoading } from 'element-plus'
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const
@@ -527,6 +528,7 @@ const calculate = async () => {
     }
   }
 
+  const loading = ElLoading.service()
   try {
     const data: ResultType = await $fetch(config.public.apiUrl, {
       method: 'POST',
@@ -582,6 +584,8 @@ const calculate = async () => {
     isResultVisible.value = true
   } catch (e) {
     console.error(e)
+  } finally {
+    loading.close()
   }
 }
 </script>
