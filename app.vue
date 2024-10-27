@@ -59,7 +59,7 @@
             </template>
             <template v-else>
               <span v-for="(p, j) in t.pai" :key="`hupai-${i}-${j}`">
-                <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] mr-2 mt-2': j === 0 }">
+                <img :src="`/pai/${p}.png`" class="inline-block h-9 md:h-16 md:w-12 w-6" :class="{ 'rotate-[270deg] rotate': j === 0 }">
               </span>
             </template>
           </div>
@@ -596,3 +596,16 @@ const calculate = async () => {
   }
 }
 </script>
+
+<style scoped>
+.rotate {
+  margin-top: 8px;
+  margin-right: 8px;
+}
+@media screen and (max-width: 425px) {
+  .rotate {
+    margin-top: 6px;
+    margin-right: 5px;
+  }
+}
+</style>
