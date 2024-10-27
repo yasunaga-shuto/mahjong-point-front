@@ -209,6 +209,10 @@ type Sozu = typeof SOZU[number]
 type Tupai = typeof TUPAI[number]
 type Pai = Manzu | Pinzu | Sozu | Tupai
 type Mode = '' | 'chi' | 'pon' | 'kan' | 'ankan' | 'dora_indicators'
+type Hupai = {
+  type: Mode
+  pai: Pai[]
+}
 
 const roundWind = ref('ton')
 const playerWind = ref('ton')
@@ -239,58 +243,8 @@ const modeDisabled = ref({
 
 const config = useRuntimeConfig()
 
-// const tehai = ref<Pai[]>([])
-// TODO: デバッグ用後で消す
-const tehai = ref<Pai[]>(['2m', '3m', '4m', '5m', '6m', '7m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
-// 一盃口
-// const tehai = ref<Pai[]>(['2m', '2m', '3m', '3m', '4m', '4m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
-// 役牌
-// const tehai = ref<Pai[]>(['haku', 'haku', 'haku', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
-// const tehai = ref<Pai[]>(['hatsu', 'hatsu', 'hatsu', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
-// const tehai = ref<Pai[]>(['chun', 'chun', 'chun', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
-// 自風・場風
-// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', '3m', '4m', '5m', '2s', '3s', '4s', '5pRed', '6p', '5m', '5m'])
-// チートイツ
-// const tehai = ref<Pai[]>(['1m', '1m', '3m', '3m', '5m', '5m', '1s', '1s', '4p', '5pRed', '5p', 'sha', 'sha'])
-// トイトイ・三暗刻・三色
-// const tehai = ref<Pai[]>(['1m', '1m', '1m', '1p', '1p', '1p', '1s', '1s', '1s', '4p', '4p', 'sha', 'sha'])
-// 三色同順
-// const tehai = ref<Pai[]>(['1m', '2m', '3m', '1p', '2p', '3p', '1s', '2s', '3s', '4p', '4p', 'sha', 'sha'])
-// ホンロウトウ
-// const tehai = ref<Pai[]>(['1m', '1m', '1m', '1p', '1p', '1p', '1s', '1s', '1s', '9p', '9p', 'sha', 'sha'])
-// 一通
-// const tehai = ref<Pai[]>(['1m', '2m', '3m', '4m', '5m', '6m', '7m', '8m', '9m', '9p', '9p', 'sha', 'sha'])
-// チャンタ
-// const tehai = ref<Pai[]>(['1m', '2m', '3m', '1p', '2p', '3p', '1s', '2s', '3s', '9p', '9p', 'sha', 'sha'])
-// 小三元
-// const tehai = ref<Pai[]>(['1m', '2m', '3m', 'haku', 'haku', 'haku', 'hatsu', 'hatsu', 'hatsu', 'chun', 'chun', 'sha', 'sha'])
-// ジュンチャン
-// const tehai = ref<Pai[]>(['1m', '2m', '3m', '1p', '2p', '3p', '1s', '2s', '3s', '9p', '9p', '9s', '9s'])
-// 二盃口
-// const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '1s', '1s', '2s', '2s', '3s', '3s', '9s'])
-// 清一色
-// const tehai = ref<Pai[]>(['1m', '1m', '2m', '2m', '3m', '3m', '4m', '4m', '4m', '5m', '6m', '7m', '8m'])
-// 緑一色
-// const tehai = ref<Pai[]>(['2s', '2s', '2s', '3s', '3s', '3s', '4s', '4s', '4s', '8s', '8s', 'hatsu', 'hatsu'])
-// 大三元
-// const tehai = ref<Pai[]>(['1m', '2m', '3m', 'haku', 'haku', 'haku', 'hatsu', 'hatsu', 'hatsu', 'chun', 'chun', 'sha', 'sha'])
-// ショウスーシー
-// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', '2s', '2s'])
-// 字一色
-// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', 'chun', 'chun'])
-// 国士
-// const tehai = ref<Pai[]>(['1m', '9m', '1s', '9s', '1p', '9p', 'ton', 'nan', 'nan', 'sha', 'pei', 'haku', 'hatsu'])
-// チューレン
-// const tehai = ref<Pai[]>(['1m', '1m', '1m', '2m', '4m', '4m', '5m', '6m', '7m', '8m', '9m', '9m', '9m'])
-// チンロウ
-// const tehai = ref<Pai[]>(['1m', '1m', '1m', '1p', '1p', '1p', '1s', '1s', '1s', '9p', '9p', '9p', '9s'])
-// ダイスーシー
-// const tehai = ref<Pai[]>(['ton', 'ton', 'ton', 'nan', 'nan', 'nan', 'sha', 'sha', 'sha', 'pei', 'pei', '2s', '2s'])
-// 国士十三面
-// const tehai = ref<Pai[]>(['1m', '9m', '1s', '9s', '1p', '9p', 'ton', 'nan', 'sha', 'pei', 'haku', 'hatsu', 'chun'])
-
-// const tehai = ref<Pai[]>([])
-const hupai = ref<{ type: Mode, pai: Pai[] }[]>([])
+const tehai = ref<Pai[]>([])
+const hupai = ref<Hupai[]>([])
 
 const isResultVisible = ref(false)
 const result = ref([])
@@ -531,7 +485,6 @@ const calculate = async () => {
   pin += p
   sou += s
   honors += h
-  console.log(man, pin, sou, honors)
   man = man.split('').sort().join('')
   pin = pin.split('').sort().join('')
   sou = sou.split('').sort().join('')
@@ -596,7 +549,7 @@ const calculate = async () => {
         player_wind: playerWind.value,
       }
     })
-    console.error(data)
+    console.log(data)
     if (data.error !== null) {
       let e = ja.error[data.error as keyof typeof ja.error] ? ja.error[data.error as keyof typeof ja.error] : data.error
       ElMessage({ type: "error", title: "エラー", message: e })
@@ -610,13 +563,12 @@ const calculate = async () => {
       yakuLevel: '',
       fu: 0,
     }
+    const isOpen = hupai.value.some((h: Hupai) => ['chi', 'pon', 'kan'].includes(h.type))
     for (const yaku of data.yaku) {
-      result.value.push({
-        name: ja.yaku[yaku.name as keyof typeof ja.yaku],
-        han: yaku.han_closed,
-      })
-      resultSummary.value.totalHan += yaku.han_closed
+      const han = isOpen ? yaku.han_open : yaku.han_closed
+      result.value.push({ name: ja.yaku[yaku.name as keyof typeof ja.yaku], han })
     }
+    resultSummary.value.totalHan = data.han
     resultSummary.value.main = data.cost.main
     resultSummary.value.additional = data.cost.additional
     resultSummary.value.yakuLevel = data.cost.yaku_level
