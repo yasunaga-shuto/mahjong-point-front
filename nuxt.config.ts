@@ -54,7 +54,8 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@element-plus/nuxt',
     'nuxt-gtag',
-    'nuxt-og-image',
+    '@nuxtjs/robots',
+    '@nuxtjs/sitemap',
   ],
   runtimeConfig: {
     public: {
