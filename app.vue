@@ -296,9 +296,9 @@ const addPai = (pai: Pai) => {
   switch (mode.value) {
   case 'chi':
     const last = hupai.value.slice(-1)[0]
-    console.log(last)
     if (!last || last.type !== 'chi' || last.pai.length === 3) {
       hupai.value.push({ type: 'chi', pai: [pai] })
+      disableModes()
     } else {
       last.pai.push(pai)
       hupai.value[hupai.length - 1] = last
@@ -346,6 +346,15 @@ const deletePai = () => {
   tehai.value.pop()
 }
 
+const disableModes = () => {
+  modeDisabled.value.default = true
+  modeDisabled.value.pon = true
+  modeDisabled.value.kan = true
+  modeDisabled.value.ankan = true
+  modeDisabled.value.doraIndicators = true
+  modeDisabled.value.agariPai = true
+}
+
 // モード選択のバリデーション
 watch(mode, (newMode: Mode) => {
   switch (newMode) {
@@ -356,14 +365,6 @@ watch(mode, (newMode: Mode) => {
     modeDisabled.value.ankan = false
     modeDisabled.value.doraIndicators = false
     modeDisabled.value.agariPai = false
-    break
-  case 'chi':
-    modeDisabled.value.default = true
-    modeDisabled.value.pon = true
-    modeDisabled.value.kan = true
-    modeDisabled.value.ankan = true
-    modeDisabled.value.doraIndicators = true
-    modeDisabled.value.agariPai = true
     break
   }
 })
