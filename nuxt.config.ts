@@ -55,7 +55,6 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-gtag',
     '@nuxtjs/robots',
-    '@nuxtjs/sitemap',
   ],
   runtimeConfig: {
     public: {
