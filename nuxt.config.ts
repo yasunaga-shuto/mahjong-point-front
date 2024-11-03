@@ -53,10 +53,12 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/tailwindcss',
     '@element-plus/nuxt',
+    'nuxt-gtag',
   ],
   runtimeConfig: {
     public: {
       apiUrl: '',
     },
-  }
+  },
+  gtag: { id: 'G-NKQTEC146J' },
 })
