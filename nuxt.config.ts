@@ -54,6 +54,7 @@ export default defineNuxtConfig({
     '@nuxtjs/tailwindcss',
     '@element-plus/nuxt',
     'nuxt-gtag',
+    'nuxt-og-image',
   ],
   runtimeConfig: {
     public: {
