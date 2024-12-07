@@ -204,11 +204,16 @@ import type { ResultType } from "~/@types/result"
 import { ElLoading } from 'element-plus'
 
 useHead({
-  title: '麻雀 | 点数計算',
+  title: '麻雀点数計算アプリ',
   meta: [
     { name: 'description', content: '麻雀の点数計算をシンプルにできるサイトです。初心者の方や点数計算が苦手な方、是非ご活用ください。' }
   ],
 })
+useJsonld({
+  '@context': 'https://schema.org',
+  '@type': 'Thing',
+  name: '麻雀点数計算アプリ',
+});
 
 // https://majandofu.com/mahjong-images
 const MANZU = ['1m', '2m', '3m', '4m', '5m', '5mRed', '6m', '7m', '8m', '9m'] as const

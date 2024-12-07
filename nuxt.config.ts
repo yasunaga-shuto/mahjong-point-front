@@ -12,11 +12,6 @@ export default defineNuxtConfig({
         { hid: 'og-url', property: 'og:url', content: 'https://mahjong-point-front.vercel.app' },
         {
           hid: 'description',
-          name: 'description',
-          content: '麻雀の点数計算を初心者の方にも優しく簡単にできるサイトです。初心者の方や点数計算が苦手な方は是非ご活用ください。'
-        },
-        {
-          hid: 'description',
           name: 'keywords',
           content: '麻雀,ドラ表示牌,点数,点数計算,自動,麻雀点数計算,麻雀牌'
         },
@@ -65,6 +60,7 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     'nuxt-gtag',
     '@nuxtjs/robots',
+    'nuxt-jsonld',
   ],
   runtimeConfig: {
     public: {
